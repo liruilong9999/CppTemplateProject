@@ -1,6 +1,6 @@
 /bin/*
-!/bin/html/*
-!/bin/config/*
+!/bin/html/
+!/bin/config/
 /*.pro.*
 /build/*
 /*build*/*

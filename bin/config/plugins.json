@@ -1,0 +1,8 @@
+﻿{
+    "plugins": [
+        {
+            "name": "plugina",
+            "isUsed": "1"
+        }
+    ]
+}
