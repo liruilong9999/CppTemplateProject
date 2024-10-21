@@ -1,5 +1,1 @@
-﻿
-
-
-
-#include "testclass.h"
+﻿#include "testclass.h"
