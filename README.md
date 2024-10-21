@@ -1,2 +1,1 @@
-# CppTemplateProject
-CppTemplateProject
+
