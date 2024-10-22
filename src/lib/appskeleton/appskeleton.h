@@ -1,4 +1,4 @@
-﻿#ifndef APPSKELETON_H
+#ifndef APPSKELETON_H
 #define APPSKELETON_H
 
 #include <QtWidgets/QMainWindow>

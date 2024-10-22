@@ -1,4 +1,4 @@
-﻿#ifndef APPSKELETON_GLOBAL_H__20240806
+#ifndef APPSKELETON_GLOBAL_H__20240806
 #define APPSKELETON_GLOBAL_H__20240806
 
 #include <QtCore/qglobal.h>

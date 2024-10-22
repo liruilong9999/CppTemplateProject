@@ -1,4 +1,4 @@
-﻿
+
 
 #include "appskeleton.h"
 #include "ui_appskeleton.h"
@@ -18,7 +18,7 @@ AppSkeleton::AppSkeleton(QWidget * parent)
     , ui(new Ui::AppSkeleton)
 {
     ui->setupUi(this);
-    setWindowTitle(QStringLiteral("地图软件"));
+    setWindowTitle(QString("地图软件"));
 }
 
 AppSkeleton::~AppSkeleton()

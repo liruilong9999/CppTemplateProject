@@ -1,4 +1,4 @@
-﻿#include "leventbus.h"
+#include "leventbus.h"
 
 LEventBus & LEventBus::instance()
 {

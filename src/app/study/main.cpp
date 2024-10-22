@@ -1,4 +1,4 @@
-﻿#include <QApplication>
+#include <QApplication>
 #include <QMenuBar>
 #include <lib/pluginmanager/pluginmanager.h>
 #include <lib/appskeleton/ipluginview.h>

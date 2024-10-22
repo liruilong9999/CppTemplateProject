@@ -1,4 +1,4 @@
-﻿#ifndef PLUGINMANAGER_GLOBAL_H
+#ifndef PLUGINMANAGER_GLOBAL_H
 #define PLUGINMANAGER_GLOBAL_H
 
 #include <QtCore/qglobal.h>

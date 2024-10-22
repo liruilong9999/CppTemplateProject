@@ -1,4 +1,4 @@
-﻿#ifndef PLUGINMANAGER_H__
+#ifndef PLUGINMANAGER_H__
 #define PLUGINMANAGER_H__
 #include <QPluginLoader>
 #include "pluginmanager_gloabal.h"

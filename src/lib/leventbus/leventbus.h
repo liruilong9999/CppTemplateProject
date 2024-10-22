@@ -1,4 +1,4 @@
-﻿#ifndef LEVENTBUS_H
+#ifndef LEVENTBUS_H
 #define LEVENTBUS_H
 
 #include <map>

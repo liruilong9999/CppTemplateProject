@@ -1,4 +1,4 @@
-﻿
+
 #ifndef PLUGINA_H
 #define PLUGINA_H
 

@@ -1,4 +1,4 @@
-﻿#include <QString>
+#include <QString>
 #include <QDir>
 #include <QDebug>
 #include <QFileInfo>
@@ -9,6 +9,7 @@
 #include <QFileInfoList>
 
 #include <lib/llog/llog.h>
+#include <iostream>
 
 #include "pluginmanager.h"
 #include "plugininterface.h"
@@ -97,7 +98,7 @@ bool PluginManager::loadPlugin(QString & filePath)
     QString         fileName = fileInfo.fileName();
     if (loader->load())
     {
-        LOG_INFO(QStringLiteral("加载插件：%1成功").arg(fileName));
+        LOG_INFO(QString("加载插件：%1成功").arg(fileName));
         PluginInterface * plugin = qobject_cast<PluginInterface *>(loader->instance());
         if (plugin)
         {
@@ -110,7 +111,7 @@ bool PluginManager::loadPlugin(QString & filePath)
         }
         return true;
     }
-    LOG_INFO(QStringLiteral("加载插件：%1失败").arg(fileName));
+    LOG_INFO(QString("加载插件：%1失败").arg(fileName));
     return false;
 }
 
@@ -127,10 +128,10 @@ bool PluginManager::unloadPlugin(QString & filePath)
         m_pluginData->m_loaders.remove(filePath);
         delete loader;
         loader = nullptr;
-        LOG_INFO(QStringLiteral("卸载插件：%1成功").arg(fileName));
+        LOG_INFO(QString("卸载插件：%1成功").arg(fileName));
         return true;
     }
-    LOG_INFO(QStringLiteral("卸载插件：%1失败").arg(fileName));
+    LOG_INFO(QString("卸载插件：%1失败").arg(fileName));
     return false;
 }
 
@@ -142,7 +143,7 @@ bool PluginManager::loadAllPlugin()
     m_pluginData->m_loaders.clear();
 
     QDir pluginsdir = QDir(qApp->applicationDirPath());
-    pluginsdir.cd("plugins");
+    pluginsdir.cd("plugin");
     QFileInfoList pluginsInfo = pluginsdir.entryInfoList(QDir::Files | QDir::NoDotAndDotDot);
     QFileInfoList useableList;
 
@@ -193,10 +194,10 @@ bool PluginManager::loadAllPlugin()
                     if (plugin)
                     {
                         if (plugin->init())
-                            LOG_INFO(QStringLiteral("初始化插件: %1 成功").arg(pluginName));
+                            LOG_INFO(QString("初始化插件: %1 成功").arg(pluginName));
                         else
                         {
-                            LOG_WARN(QStringLiteral("初始化插件: %1 失败").arg(pluginName));
+                            LOG_WARN(QString("初始化插件: %1 失败").arg(pluginName));
                         }
                     }
                 }
@@ -228,10 +229,10 @@ bool PluginManager::unloadAllPlugin()
                     if (plugin)
                     {
                         if (plugin->clean())
-                            LOG_INFO(QStringLiteral("清理插件: %1 成功").arg(fileInfo.baseName()));
+                            LOG_INFO(QString("清理插件: %1 成功").arg(fileInfo.baseName()));
                         else
                         {
-                            LOG_WARN(QStringLiteral("初始化插件: %1 失败").arg(fileInfo.baseName()));
+                            LOG_WARN(QString("初始化插件: %1 失败").arg(fileInfo.baseName()));
                         }
                     }
                 }
@@ -282,14 +283,13 @@ void PluginManager::scanMetaData(const QString & filepath)
 void PluginManager::setPluginList()
 {
     m_configFile = PLUGIN_CONF_PATH;
-
     QFile file(m_configFile);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
         LOG_INFO("Failed to open config file:" + m_configFile);
         return;
     }
-
+    LOG_INFO("read config file succeed:" + m_configFile);
     QByteArray data = file.readAll();
     file.close();
 
@@ -302,9 +302,15 @@ void PluginManager::setPluginList()
 
     foreach (const QJsonValue & value, pluginArray)
     {
-        QJsonObject    pluginObj  = value.toObject();
-        QString        pluginName = pluginObj["name"].toString();
-        QString        isUsed     = pluginObj["isUsed"].toString();
+        QJsonObject pluginObj  = value.toObject();
+        QString     pluginName = pluginObj["name"].toString();
+#ifdef _DEBUG
+        pluginName = pluginName + "d";
+#else
+
+#endif
+
+        QString        isUsed = pluginObj["isUsed"].toString();
         PluginCongInfo info;
         info.pluginName = pluginName;
         info.isUsed     = isUsed;

@@ -1,4 +1,4 @@
-﻿#ifndef LEVENTBUS_GLOBAL_H
+#ifndef LEVENTBUS_GLOBAL_H
 #define LEVENTBUS_GLOBAL_H
 
 #include <QtCore/qglobal.h>

@@ -1,4 +1,4 @@
-﻿#ifndef PLUGININTERFACE__H__
+#ifndef PLUGININTERFACE__H__
 #define PLUGININTERFACE__H__
 
 #include <QString>

@@ -1,4 +1,4 @@
-﻿#include <QDebug>
+#include <QDebug>
 #include <lib/appskeleton/ipluginview.h>
 #include <QAction>
 #include <QLabel>
@@ -20,7 +20,7 @@ PluginA::PluginA(QObject * parent)
 
 QString PluginA::getname()
 {
-    return QStringLiteral("插件A");
+    return QString("插件A");
 }
 
 // 定义处理数据的回调函数
@@ -39,11 +39,11 @@ void myCallback(const QVariant & data)
 bool PluginA::init()
 {
     m_TestClass       = new TestClass;
-    m_actionTestClass = new QAction(QStringLiteral("按钮1"));
+    m_actionTestClass = new QAction(QString("按钮1"));
     if (m_actionTestClass)
     {
         connect(m_actionTestClass, &QAction::triggered, this, &PluginA::addTestClass);
-        IPluginView::getInstance().registerAction(QStringLiteral("组"), QStringLiteral("页"), m_actionTestClass);
+        IPluginView::getInstance().registerAction(QString("组"), QString("页"), m_actionTestClass);
     }
 
     qDebug() << "主线程id:" << QThread::currentThreadId();

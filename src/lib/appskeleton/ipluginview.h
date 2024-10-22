@@ -1,4 +1,4 @@
-﻿#ifndef IPLUGINVIEW_H
+#ifndef IPLUGINVIEW_H
 #define IPLUGINVIEW_H
 
 #include <QObject>

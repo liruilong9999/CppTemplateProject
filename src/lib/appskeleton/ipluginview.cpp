@@ -1,4 +1,4 @@
-﻿
+
 #include <QDebug>
 #include "ipluginview.h"
 // 获取 IPluginView 实例
