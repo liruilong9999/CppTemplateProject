@@ -15,4 +15,4 @@ set(SELF_LIBRARY_LIST "llog" "pluginmanager" "appskeleton" "leventbus")
 add_compile_definitions(PLUGINA_LIBRARY)
 
 # 创建项目
-CreateTarget(${ProjectName} "Plugin") 
+CreateTarget(${ProjectName} "Dll" "Plugin") 

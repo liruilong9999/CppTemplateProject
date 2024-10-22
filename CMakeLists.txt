@@ -22,7 +22,7 @@ set_property(GLOBAL PROPERTY PREDEFINED_TARGETS_FOLDER "_CMakePredefinedTargets"
 
 # 设置根目录
 set(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
-set(BUILD_DIR ${ROOT_DIR}/build)
+set(BUILD_DIR ${CMAKE_BINARY_DIR})
 
 # 适配不同操作系统
 if(WIN32)

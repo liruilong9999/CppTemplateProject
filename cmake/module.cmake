@@ -1,7 +1,7 @@
 # 定义宏 CreateTarget，创建项目的目标文件
-# ProjectName: 项目名称
-# Type: 生成目标类型（可执行文件、库文件等）
-
+# ARGV0: ProjectName: 项目名称
+# ARGV1: Type: 生成目标类型（可执行文件、库文件等）
+# ARGV2: BuildDir 可以不填
 macro(CreateTarget ProjectName Type)
     # 如果 QT_LIBRARY_LIST 不为空，则引入 Qt 的相关配置宏
     if(NOT("${QT_LIBRARY_LIST}" STREQUAL ""))
@@ -62,13 +62,30 @@ macro(CreateTarget ProjectName Type)
         AddQtInc("${QT_LIBRARY_LIST}" "${FORM_FILES}" "${RESOURCE_FILES}")  # 添加 Qt 的包含路径
     endif()
 
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIR}/../bin/lib) # .lib and .a
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIR}/../bin/lib) # .so and .dylib
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIR}/../bin) # .exe and .dll
-	set(CMAKE_DEBUG_POSTFIX "d")
-	set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_RELEASE ${BUILD_DIR}/../bin/lib) # .lib and .a
-	set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_RELEASE ${BUILD_DIR}/../bin/lib) # .so and .dylib
-	set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BUILD_DIR}/../bin) # .exe and .dll
+    # 为多种构建类型设置输出目录
+    set(CONFIGURATION_TYPES "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+    if(${ARGC} GREATER 2)
+        foreach(CONFIGURATION_TYPE ${CONFIGURATION_TYPES})
+            string(TOUPPER ${CONFIGURATION_TYPE} TYPE)
+            set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${TYPE} ${ROOT_DIR}/bin/${ARGV2}) # .lib and .a
+            set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${TYPE} ${ROOT_DIR}/bin/${ARGV2}) # .so and .dylib
+            set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${TYPE} ${ROOT_DIR}/bin/${ARGV2}) # .exe and .dll
+        endforeach()
+    else()
+        foreach(CONFIGURATION_TYPE ${CONFIGURATION_TYPES})
+            string(TOUPPER ${CONFIGURATION_TYPE} TYPE)
+            set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY_${TYPE} ${ROOT_DIR}/bin/lib) # .lib and .a
+            set(CMAKE_LIBRARY_OUTPUT_DIRECTORY_${TYPE} ${ROOT_DIR}/bin/lib) # .so and .dylib
+            set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_${TYPE} ${ROOT_DIR}/bin) # .exe and .dll
+        endforeach()
+    endif()
+
+    # 设置后缀
+    set(CMAKE_RELEASE_POSTFIX "")
+    set(CMAKE_DEBUG_POSTFIX "d")
+    set(CMAKE_MINSIZEREL_POSTFIX "m")
+    set(CMAKE_RELWITHDEBINFO_POSTFIX "rd")
+
     # 根据不同的类型生成相应的目标文件
     if(${Type} STREQUAL "Exe")
         # 生成可执行文件（带窗口）
@@ -77,7 +94,6 @@ macro(CreateTarget ProjectName Type)
             ${HEADER_FILES} ${SOURCE_FILES}    # 源码文件
             ${FORM_FILES} ${RESOURCE_FILES})   # Qt 的 UI 和资源文件
         set_target_properties(${PROJECT_NAME} PROPERTIES
-            DEBUG_POSTFIX "d"                  # Debug 模式下的文件后缀为 'd'
             VS_DEBUGGER_WORKING_DIRECTORY "$(OutDir)")  # 设置 Visual Studio 的调试工作目录
     elseif(${Type} STREQUAL "ExeCMD")
         # 生成命令行可执行文件（无窗口）
@@ -85,7 +101,6 @@ macro(CreateTarget ProjectName Type)
             ${HEADER_FILES} ${SOURCE_FILES}    # 源码文件
             ${FORM_FILES} ${RESOURCE_FILES})   # Qt 的 UI 和资源文件
         set_target_properties(${PROJECT_NAME} PROPERTIES
-            DEBUG_POSTFIX "d"                  # Debug 模式下的文件后缀为 'd'
             VS_DEBUGGER_WORKING_DIRECTORY "$(OutDir)")  # 设置 Visual Studio 的调试工作目录
     else()
         # 生成库文件
@@ -95,11 +110,6 @@ macro(CreateTarget ProjectName Type)
         elseif(${Type} STREQUAL "Dll")
             # 动态库
             add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES} ${FORM_FILES} ${RESOURCE_FILES})
-		elseif(${Type} STREQUAL "Plugin")
-            # 插件库
-			set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_DEBUG ${BUILD_DIR}/../bin/plugin) # .exe and .dll
-			set(CMAKE_RUNTIME_OUTPUT_DIRECTORY_RELEASE ${BUILD_DIR}/../bin/plugin) # .exe and .dll
-			add_library(${PROJECT_NAME} SHARED ${HEADER_FILES} ${SOURCE_FILES} ${FORM_FILES} ${RESOURCE_FILES})  # 生成共享库
 		endif()
     endif()
 
