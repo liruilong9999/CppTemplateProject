@@ -54,11 +54,9 @@ private:
     LLogPrivate * m_logData = nullptr;
 };
 
-#define CURRENT_TIME QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss")
-
-#define LOG_WARN(msg)  LLog::getInstance()->printWaring(CURRENT_TIME + " " + msg)
-#define LOG_DEBUG(msg) LLog::getInstance()->printDebug(CURRENT_TIME + " " + msg)
-#define LOG_INFO(msg)  LLog::getInstance()->printInfo(CURRENT_TIME + " " + msg)
-#define LOG_ERROR(msg) LLog::getInstance()->printError(CURRENT_TIME + " " + msg)
+#define LOG_WARN(msg)  LLog::getInstance()->printWaring(msg);
+#define LOG_DEBUG(msg) LLog::getInstance()->printDebug(msg);
+#define LOG_INFO(msg)  LLog::getInstance()->printInfo(msg);
+#define LOG_ERROR(msg) LLog::getInstance()->printError(msg);
 
 #endif // LLOG_H

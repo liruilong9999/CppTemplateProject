@@ -8,11 +8,11 @@
 #include <QCoreApplication>
 #include <QFileInfoList>
 
+#include <common/IPlugin.h>
 #include <lib/llog/llog.h>
 #include <iostream>
 
 #include "pluginmanager.h"
-#include "plugininterface.h"
 
 #define PLUGIN_CONF_PATH QString(qApp->applicationDirPath() + "/config/plugins.json")
 
@@ -99,7 +99,7 @@ bool PluginManager::loadPlugin(QString & filePath)
     if (loader->load())
     {
         LOG_INFO(QString("加载插件：%1成功").arg(fileName));
-        PluginInterface * plugin = qobject_cast<PluginInterface *>(loader->instance());
+        IPlugin * plugin = qobject_cast<IPlugin *>(loader->instance());
         if (plugin)
         {
             m_pluginData->m_loaders.insert(filePath, loader);
@@ -190,11 +190,13 @@ bool PluginManager::loadAllPlugin()
                 QPluginLoader * loader = m_pluginData->m_loaders.value(path);
                 if (loader)
                 {
-                    PluginInterface * plugin = qobject_cast<PluginInterface *>(loader->instance());
+                    IPlugin * plugin = qobject_cast<IPlugin *>(loader->instance());
                     if (plugin)
                     {
                         if (plugin->init())
+                        {
                             LOG_INFO(QString("初始化插件: %1 成功").arg(pluginName));
+						}
                         else
                         {
                             LOG_WARN(QString("初始化插件: %1 失败").arg(pluginName));
@@ -225,11 +227,13 @@ bool PluginManager::unloadAllPlugin()
                 QPluginLoader * loader = m_pluginData->m_loaders.value(path);
                 if (loader)
                 {
-                    PluginInterface * plugin = qobject_cast<PluginInterface *>(loader->instance());
+                    IPlugin * plugin = qobject_cast<IPlugin *>(loader->instance());
                     if (plugin)
                     {
                         if (plugin->clean())
+                        {
                             LOG_INFO(QString("清理插件: %1 成功").arg(fileInfo.baseName()));
+						}
                         else
                         {
                             LOG_WARN(QString("初始化插件: %1 失败").arg(fileInfo.baseName()));
