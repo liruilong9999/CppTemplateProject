@@ -15,7 +15,7 @@ struct LLogPrivate
 {
     bool                            isSave{true}; // 是否保存
     std::shared_ptr<spdlog::logger> mylogger;     // 日志保存到文件中
-    //    std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> console_sink ;//日志显示到控制台
+    // std::shared_ptr<spdlog::logger> consoleLogger; // 日志显示到控制台
 };
 
 void LLog::saveLog(bool isSave)
@@ -37,7 +37,7 @@ void LLog::printWaringStd(std::string msg)
 
 void LLog::printWaring(QString msg)
 {
-    qDebug() << QString("[%1] (Warning): %2").arg(CURRENT_TIME).arg(msg);
+    qDebug().noquote() << QString("[%1] (Warning): %2").arg(CURRENT_TIME).arg(msg);
     if (m_logData && m_logData->isSave)
         printWaringStd(msg.toStdString());
 }
@@ -53,7 +53,7 @@ void LLog::printDebugStd(std::string msg)
 
 void LLog::printDebug(QString msg)
 {
-    qDebug() << QString("[%1] (Debug): %2").arg(CURRENT_TIME).arg(msg);
+    qDebug().noquote() << QString("[%1] (Debug): %2").arg(CURRENT_TIME).arg(msg);
     if (m_logData && m_logData->isSave)
         printDebugStd(msg.toStdString());
 }
@@ -69,7 +69,7 @@ void LLog::printErrorStd(std::string msg)
 
 void LLog::printError(QString msg)
 {
-    qDebug() << QString("[%1] (Error): %2").arg(CURRENT_TIME).arg(msg);
+    qDebug().noquote() << QString("[%1] (Error): %2").arg(CURRENT_TIME).arg(msg);
     if (m_logData && m_logData->isSave)
         printErrorStd(msg.toStdString());
 }
@@ -85,11 +85,11 @@ void LLog::printInfoStd(std::string msg)
 
 void LLog::printInfo(QString msg)
 {
-    qDebug() << QString("[%1] (Info): %2").arg(CURRENT_TIME).arg(msg);
+    qDebug().noquote() << QString("[%1] (Info): %2").arg(CURRENT_TIME).arg(msg);
     if (m_logData && m_logData->isSave)
     {
         printInfoStd(msg.toStdString());
-	}
+    }
 }
 
 LLog::LLog()
@@ -101,7 +101,11 @@ LLog::LLog()
 
     m_logData           = new LLogPrivate;
     m_logData->mylogger = spdlog::basic_logger_mt("app", logFileName);
-    m_logData->mylogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%l]  %v");
+
+    // m_logData->consoleLogger = spdlog::stdout_color_mt("console");
+    // m_logData->consoleLogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e](%l): %v");
+
+    m_logData->mylogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e](%l): %v");
     m_logData->mylogger->set_level(spdlog::level::debug);
     spdlog::flush_every(std::chrono::seconds(5)); // 定期刷新日志缓冲区
 }

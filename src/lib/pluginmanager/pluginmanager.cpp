@@ -55,6 +55,7 @@ bool PluginManagerPrivate::check(const QString & filepath)
         {
             QString strcons = "Missing dependency: " + name.toString() + " for plugin " + path;
             LOG_INFO(strcons);
+            //qDebug() << strcons;
             return false;
         }
         // 再检测插件版本
@@ -63,6 +64,7 @@ bool PluginManagerPrivate::check(const QString & filepath)
             QString strcons = "Version mismatch: " + name.toString() + " version " + m_versions.value(m_names.key(name)).toString() +
                               " but " + version.toString() + " required for plugin " + path;
             LOG_INFO(strcons);
+            //qDebug() << strcons;
             return false;
         }
         // 最后检测被依赖的插件是否还依赖其他的插件
@@ -70,6 +72,7 @@ bool PluginManagerPrivate::check(const QString & filepath)
         {
             QString strcons = "Corrupted dependency: " + name.toString() + " for plugin " + path;
             LOG_INFO(strcons);
+            //qDebug() << strcons;
             return false;
         }
     }
@@ -98,7 +101,10 @@ bool PluginManager::loadPlugin(QString & filePath)
     QString         fileName = fileInfo.fileName();
     if (loader->load())
     {
-        LOG_INFO(QString("加载插件：%1成功").arg(fileName));
+        QString strcons = QString("加载插件(%1)成功").arg(fileName);
+        LOG_INFO(strcons);
+        //qDebug() << strcons;
+		//std::cout << strcons.toStdString()<<std::endl;
         IPlugin * plugin = qobject_cast<IPlugin *>(loader->instance());
         if (plugin)
         {
@@ -111,7 +117,9 @@ bool PluginManager::loadPlugin(QString & filePath)
         }
         return true;
     }
-    LOG_INFO(QString("加载插件：%1失败").arg(fileName));
+    QString strcons = QString("加载插件(%1)失败").arg(fileName);
+    LOG_WARN(strcons);
+    //qDebug() << strcons;
     return false;
 }
 
@@ -127,11 +135,16 @@ bool PluginManager::unloadPlugin(QString & filePath)
     {
         m_pluginData->m_loaders.remove(filePath);
         delete loader;
-        loader = nullptr;
-        LOG_INFO(QString("卸载插件：%1成功").arg(fileName));
+        loader          = nullptr;
+        QString strcons = QString("卸载插件(%1)成功").arg(fileName);
+        LOG_INFO(strcons);
+        //qDebug() << strcons;
+
         return true;
     }
-    LOG_INFO(QString("卸载插件：%1失败").arg(fileName));
+    QString strcons = QString("卸载插件(%1)失败").arg(fileName);
+    LOG_WARN(strcons);
+    //qDebug() << strcons;
     return false;
 }
 
@@ -195,11 +208,15 @@ bool PluginManager::loadAllPlugin()
                     {
                         if (plugin->init())
                         {
-                            LOG_INFO(QString("初始化插件: %1 成功").arg(pluginName));
-						}
+                            QString strcons = QString("初始化插件(%1)成功").arg(pluginName);
+                            LOG_INFO(strcons);
+                            //qDebug() << strcons;
+                        }
                         else
                         {
-                            LOG_WARN(QString("初始化插件: %1 失败").arg(pluginName));
+                            QString strcons = QString("初始化插件(%1)失败").arg(pluginName);
+                            LOG_WARN(strcons);
+                            //qDebug() << strcons;
                         }
                     }
                 }
@@ -232,11 +249,15 @@ bool PluginManager::unloadAllPlugin()
                     {
                         if (plugin->clean())
                         {
-                            LOG_INFO(QString("清理插件: %1 成功").arg(fileInfo.baseName()));
-						}
+                            QString strcons = QString("清理插件(%1)成功").arg(fileInfo.baseName());
+                            LOG_INFO(strcons);
+                            //qDebug() << strcons;
+                        }
                         else
                         {
-                            LOG_WARN(QString("初始化插件: %1 失败").arg(fileInfo.baseName()));
+                            QString strcons = QString("初始化插件(%1)失败").arg(fileInfo.baseName());
+                            LOG_WARN(strcons);
+                            //qDebug() << strcons;
                         }
                     }
                 }
@@ -290,10 +311,14 @@ void PluginManager::setPluginList()
     QFile file(m_configFile);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        LOG_INFO("Failed to open config file:" + m_configFile);
+        QString strcons = QString("Failed to open config file:" + m_configFile);
+        LOG_WARN(strcons);
+        //qDebug() << strcons;
         return;
     }
-    LOG_INFO("read config file succeed:" + m_configFile);
+    QString strcons = QString("读取配置文件成功:" + m_configFile);
+    LOG_INFO(strcons);
+    //qDebug() << strcons;
     QByteArray data = file.readAll();
     file.close();
 

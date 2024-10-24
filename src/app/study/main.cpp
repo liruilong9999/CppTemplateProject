@@ -5,7 +5,6 @@
 
 int main(int argc, char * argv[])
 {
-	setlocale(LC_ALL, "zh_CN.utf8");
     QApplication a(argc, argv);
 
     // 获取 IPluginView 实例

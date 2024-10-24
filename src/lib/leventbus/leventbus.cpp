@@ -24,7 +24,7 @@ void LEventBus::publish(const QString & event, const QVariant & var)
             callbacksToExecute = it->second;
         }
     }
-
+	return;
 
     // 在各自线程中执行回调函数
     for (const auto & callback : callbacksToExecute)
