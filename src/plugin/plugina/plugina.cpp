@@ -30,7 +30,7 @@ void myCallback(const QVariant & data)
     if (data.canConvert<int>())
     {
         int intValue = data.toInt();
-        std::cout << "Received Integer: " << intValue << std::endl;
+        std::cout << "子线程 Received Integer: " << intValue << std::endl;
     }
     // 如果需要处理其他类型，可以继续添加相应的逻辑
     qDebug()<<"子线程id:"<<QThread::currentThreadId();

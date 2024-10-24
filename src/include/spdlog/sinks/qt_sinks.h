@@ -164,7 +164,7 @@ protected:
                 color_range_end = QString::fromUtf8(str.data(), msg.color_range_end).size();
             }
         } else {
-            payload = QString::fromLatin1(str.data(), static_cast<int>(str.size()));
+            payload = QString::fromUtf8(str.data(), static_cast<int>(str.size()));
         }
 
         invoke_params params{max_lines_,             // max lines
