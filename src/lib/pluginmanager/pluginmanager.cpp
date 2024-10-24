@@ -8,11 +8,11 @@
 #include <QCoreApplication>
 #include <QFileInfoList>
 
+#include <common/IPlugin.h>
 #include <lib/llog/llog.h>
 #include <iostream>
 
 #include "pluginmanager.h"
-#include "plugininterface.h"
 
 #define PLUGIN_CONF_PATH QString(qApp->applicationDirPath() + "/config/plugins.json")
 
@@ -99,7 +99,7 @@ bool PluginManager::loadPlugin(QString & filePath)
     if (loader->load())
     {
         LOG_INFO(QString("加载插件：%1成功").arg(fileName));
-        PluginInterface * plugin = qobject_cast<PluginInterface *>(loader->instance());
+        IPlugin * plugin = qobject_cast<IPlugin *>(loader->instance());
         if (plugin)
         {
             m_pluginData->m_loaders.insert(filePath, loader);
@@ -190,7 +190,7 @@ bool PluginManager::loadAllPlugin()
                 QPluginLoader * loader = m_pluginData->m_loaders.value(path);
                 if (loader)
                 {
-                    PluginInterface * plugin = qobject_cast<PluginInterface *>(loader->instance());
+                    IPlugin * plugin = qobject_cast<IPlugin *>(loader->instance());
                     if (plugin)
                     {
                         if (plugin->init())
@@ -225,7 +225,7 @@ bool PluginManager::unloadAllPlugin()
                 QPluginLoader * loader = m_pluginData->m_loaders.value(path);
                 if (loader)
                 {
-                    PluginInterface * plugin = qobject_cast<PluginInterface *>(loader->instance());
+                    IPlugin * plugin = qobject_cast<IPlugin *>(loader->instance());
                     if (plugin)
                     {
                         if (plugin->clean())

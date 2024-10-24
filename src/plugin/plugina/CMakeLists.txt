@@ -9,10 +9,10 @@ get_filename_component(ProjectName ${AbsolutePathProject} NAME)
 set(QT_LIBRARY_LIST "Core" "Gui" "Widgets" )
 
 # 链接库
-set(SELF_LIBRARY_LIST "llog" "pluginmanager" "appskeleton" "leventbus")
+set(SELF_LIBRARY_LIST "llog" "appskeleton" "leventbus")
 
 # 预编译
-add_compile_definitions(PLUGINA_LIBRARY)
+add_compile_definitions(PLUGINA_LIBRARY) 
 
 # 创建项目
 CreateTarget(${ProjectName} "Dll" "Plugin") 

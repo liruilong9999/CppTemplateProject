@@ -9,11 +9,13 @@
 
 #include "llog.h"
 
+#define CURRENT_TIME QDateTime::currentDateTime().toString("yyyy-MM-dd HH:mm:ss") // 当前时间
+
 struct LLogPrivate
 {
     bool                            isSave{true}; // 是否保存
     std::shared_ptr<spdlog::logger> mylogger;     // 日志保存到文件中
-    //    std::shared_ptr<spdlog::sinks::stdout_color_sink_mt> console_sink ;//日志显示到控制台
+    // std::shared_ptr<spdlog::logger> consoleLogger; // 打印到控制台
 };
 
 void LLog::saveLog(bool isSave)
@@ -35,7 +37,7 @@ void LLog::printWaringStd(std::string msg)
 
 void LLog::printWaring(QString msg)
 {
-    qDebug() << "[Waring] " << msg;
+    qDebug() << QString("[%1](Waring): %2").arg(CURRENT_TIME).arg(msg);
     if (m_logData && m_logData->isSave)
         printWaringStd(msg.toStdString());
 }
@@ -51,7 +53,7 @@ void LLog::printDebugStd(std::string msg)
 
 void LLog::printDebug(QString msg)
 {
-    qDebug() << "[Debug] " << msg;
+    qDebug() << QString("[%1](Debug): %2").arg(CURRENT_TIME).arg(msg);
     if (m_logData && m_logData->isSave)
         printDebugStd(msg.toStdString());
 }
@@ -67,7 +69,7 @@ void LLog::printErrorStd(std::string msg)
 
 void LLog::printError(QString msg)
 {
-    qDebug() << "[Error] " << msg;
+    qDebug() << QString("[%1](Error): %2").arg(CURRENT_TIME).arg(msg);
     if (m_logData && m_logData->isSave)
         printErrorStd(msg.toStdString());
 }
@@ -83,9 +85,12 @@ void LLog::printInfoStd(std::string msg)
 
 void LLog::printInfo(QString msg)
 {
-    qDebug() << "[Info] " << msg;
+    //qDebug() << QString("[%1](Info): %2").arg(CURRENT_TIME).arg(msg);
+	qDebug() << CURRENT_TIME + " " + msg;
     if (m_logData && m_logData->isSave)
+    {
         printInfoStd(msg.toStdString());
+    }
 }
 
 LLog::LLog()
@@ -94,29 +99,12 @@ LLog::LLog()
     QDateTime   curTime     = QDateTime::currentDateTime();
     QString     fileName    = curTime.toString("yyyy_MM_dd_hh_mm_ss");
     std::string logFileName = "./log/" + fileName.toStdString() + ".log";
-    //    // 创建控制台 sink
-    //    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    //    console_sink->set_level(spdlog::level::info);
-
-    //    // 创建文件 sink
-    //    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(logFileName, true);
-    //    file_sink->set_level(spdlog::level::debug);
 
     m_logData           = new LLogPrivate;
     m_logData->mylogger = spdlog::basic_logger_mt("app", logFileName);
-    m_logData->mylogger->set_pattern("[%n][%Y-%m-%d %H:%M:%S.%e] [%l] [%t]  %v");
+    m_logData->mylogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e] (%l) %v");
     m_logData->mylogger->set_level(spdlog::level::debug);
     spdlog::flush_every(std::chrono::seconds(5)); // 定期刷新日志缓冲区
-
-    //    // 创建多重日志记录器
-    //    std::vector<spdlog::sink_ptr> sinks {console_sink, file_sink};
-    //    m_logData->mylogger = std::make_shared<spdlog::logger>("multi_sink", sinks.begin(), sinks.end());
-    //    m_logData->mylogger->set_pattern("[%n][%Y-%m-%d %H:%M:%S.%e] [%l] [%t]  %v");
-    //    m_logData->mylogger->set_level(spdlog::level::debug);
-
-    //    // 设置全局日志器
-    //    spdlog::set_default_logger(m_logData->mylogger);
-    //    spdlog::flush_every(std::chrono::seconds(5)); // 定期刷新日志缓冲区
 }
 
 LLog::~LLog()

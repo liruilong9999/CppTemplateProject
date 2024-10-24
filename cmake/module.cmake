@@ -83,8 +83,8 @@ macro(CreateTarget ProjectName Type)
     # 设置后缀
     set(CMAKE_RELEASE_POSTFIX "")
     set(CMAKE_DEBUG_POSTFIX "d")
-    set(CMAKE_MINSIZEREL_POSTFIX "m")
-    set(CMAKE_RELWITHDEBINFO_POSTFIX "rd")
+    set(CMAKE_MINSIZEREL_POSTFIX "")
+    set(CMAKE_RELWITHDEBINFO_POSTFIX "")
 
     # 根据不同的类型生成相应的目标文件
     if(${Type} STREQUAL "Exe")
