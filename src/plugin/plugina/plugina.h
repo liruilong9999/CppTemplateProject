@@ -7,7 +7,11 @@
 #include <QAction>
 #include <common/IPlugin.h>
 
+#include "thread1.h"
+#include "thread2.h"
+
 class TestClass;
+
 class PluginA : public QObject,
                 public IPlugin
 {
@@ -25,6 +29,9 @@ public slots:
 private:
     QAction *   m_actionTestClass{nullptr}; // 按钮
     TestClass * m_TestClass{nullptr};       // 类
+
+    SubThread1 * m_pt1{nullptr};
+    SubThread2 * m_pt2{nullptr};
 };
 
 #endif

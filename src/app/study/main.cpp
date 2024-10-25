@@ -14,7 +14,7 @@ int main(int argc, char * argv[])
 
     IPluginView::getInstance().createMenuBar(menuBar);
 
-    mainwindow->showMaximized();
+    mainwindow->show();
 
     int ret = a.exec();
     PluginManager::GetInstance().unloadAllPlugin();

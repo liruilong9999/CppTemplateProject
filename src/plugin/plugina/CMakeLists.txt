@@ -16,3 +16,4 @@ add_compile_definitions(PLUGINA_LIBRARY)
 
 # 创建项目
 CreateTarget(${ProjectName} "Dll" "Plugin") 
+ 
