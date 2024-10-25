@@ -2,7 +2,7 @@
 #include "leventbus.h"
 
 // 全局变量，确保在 main 函数执行之前初始化
-LEventBus & globalEventBus = LEventBus::instance();
+// LEventBus & globalEventBus = LEventBus::instance();
 
 LEventBus & LEventBus::instance()
 {
@@ -47,10 +47,9 @@ void LEventBus::run()
     }
 }
 
-
- LEventBus::LEventBus()
+LEventBus::LEventBus()
 {
-	 start();
+    start();
 }
 
 LEventBus::~LEventBus()

@@ -90,9 +90,13 @@ private:
 template <typename EventClass>
 std::list<std::weak_ptr<EventClass>> EventBus<EventClass>::registeredEvents_;
 
+// 能否修改为发布订阅的事件总线,接口参数为:
+// publish("event_code"，QVariant var);
+// int ret = subscribe("event_code"，调用函数(QVariant var)); //ret为回调存根，每个回调+1，不重复
+// 订阅处的 subscribe 同时有注册功能，
+// unsubscribe(ret);取消回调并取消注册，能实现吗？
 
-//能否修改为发布订阅的事件总线,接口参数为:
-//publish("event_code"，QVariant var);
-//int ret = subscribe("event_code"，调用函数(QVariant var)); //ret为回调存根，每个回调+1，不重复
-//订阅处的 subscribe 同时有注册功能，
-//unsubscribe(ret);取消回调并取消注册，能实现吗？
+
+
+
+
