@@ -263,7 +263,7 @@ void LBaseGraph::delete_arc(std::vector<Vertex<T1, T2>> & vertices, int tail_ind
     {
         if (pre != nullptr)
         {
-            //如果有上一条弧,就将它的nwxt指向被删除弧的下一条弧
+            //如果有上一条弧,就将它的next指向被删除弧的下一条弧
             pre->next_head = arc->next_head;
         }
         else
