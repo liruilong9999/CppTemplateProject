@@ -15,5 +15,5 @@ set(QT_LIBRARY_LIST "Core")
 # 预编译
 add_compile_definitions(LEVENTBUS_LIBRARY)
 
-# 创建项目
+# 创建项目 
 CreateTarget(${ProjectName} "Dll")

@@ -34,9 +34,9 @@ bool PluginA::init()
     }
     m_pt1 = new SubThread1(this);
     m_pt2 = new SubThread2(this);
-    m_pt1->start();
+    //m_pt1->start();
     m_pt2->start();
-
+	QThread * t = QThread::currentThread();
     return true;
 }
 

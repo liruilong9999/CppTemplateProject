@@ -10,41 +10,47 @@ LEventBus & LEventBus::instance()
     return instance;
 }
 
-void LEventBus::subscribe(const QString & event, const LEventBus::Callback & callback)
+void LEventBus::subscribe(const QString & event, const Callback & callback, void * obj)
 {
-    std::lock_guard<std::mutex> lock(m_mutex); // 锁定互斥锁
-    m_callbacks[event].push_back(callback);
+    std::lock_guard<std::mutex> lock(m_mutex);
+    m_callbacks[event].push_back({callback, obj});
 }
 
 void LEventBus::publish(const QString & event, const QVariant & var)
 {
-    QPair<QString, QVariant> pair(event, var);
-    m_eventQueue.enqueue(pair);
+    m_eventQueue.enqueue(qMakePair(event, var));
 }
 
 void LEventBus::run()
 {
-    qDebug() << "事件循环所在线程id:" << QThread::currentThreadId();
     // 执行事件循环
     while (!isInterruptionRequested())
     {
-        QPair<QString, QVariant> pair;
-        if (m_eventQueue.dequeue(pair))
+        QPair<QString, QVariant> eventPair;
+        if (m_eventQueue.dequeue(eventPair))
         {
-            std::vector<Callback>       callbacksToExecute;
-            std::lock_guard<std::mutex> lock(m_mutex); // 锁定互斥锁
-            auto                        it = m_callbacks.find(pair.first);
+            std::lock_guard<std::mutex> lock(m_mutex);
+            auto                        it = m_callbacks.find(eventPair.first);
+
+            std::vector<CallbackInfo> callbacksToExecute;
             if (it != m_callbacks.end())
             {
                 callbacksToExecute = it->second;
-            }
-
-            for (const auto & callback : callbacksToExecute)
-            {
-                callback(pair.second);
+                for (CallbackInfo callback : callbacksToExecute)
+                {
+                    emit updateTopicSignal(callback.callback, eventPair.first, callback.obj);
+                }
             }
         }
     }
+}
+
+void LEventBus::registerObject(void * obj)
+{
+}
+
+void LEventBus::registerMethod(void * obj, Callback & callback)
+{
 }
 
 LEventBus::LEventBus()
