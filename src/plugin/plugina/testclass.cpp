@@ -4,51 +4,51 @@
 #include <memory>
 #include <iostream>
 
-// Ä£°åÀà EventBus£¬¸ºÔğ¹ÜÀíÊÂ¼şµÄ×¢²á¡¢×¢ÏúÒÔ¼°ÊÂ¼şµÄ´¥·¢
+// æ¨¡æ¿ç±» EventBusï¼Œè´Ÿè´£ç®¡ç†äº‹ä»¶çš„æ³¨å†Œã€æ³¨é”€ä»¥åŠäº‹ä»¶çš„è§¦å‘
 template <typename EventClass>
 class EventBus
 {
 public:
-    // ¹¹Ôìº¯Êı£¬Ê¹ÓÃÄ¬ÈÏ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°ï¼Œä½¿ç”¨é»˜è®¤æ„é€ å‡½æ•°
     EventBus() = default;
 
-    // Îö¹¹º¯Êı£¬Ê¹ÓÃÄ¬ÈÏÎö¹¹º¯Êı
+    // ææ„å‡½æ•°ï¼Œä½¿ç”¨é»˜è®¤ææ„å‡½æ•°
     ~EventBus() = default;
 
-    // ¾²Ì¬·½·¨£¬ÓÃÓÚ×¢²áÊÂ¼ş
-    // ²ÎÊıÎª std::weak_ptr Ö¸ÏòµÄÊÂ¼ş¶ÔÏó£¬·ÀÖ¹Ñ­»·ÒıÓÃ
+    // é™æ€æ–¹æ³•ï¼Œç”¨äºæ³¨å†Œäº‹ä»¶
+    // å‚æ•°ä¸º std::weak_ptr æŒ‡å‘çš„äº‹ä»¶å¯¹è±¡ï¼Œé˜²æ­¢å¾ªç¯å¼•ç”¨
     static void Register(std::weak_ptr<EventClass> event)
     {
-        // ±éÀúÒÑ×¢²áµÄÊÂ¼ş£¬·ÀÖ¹ÖØ¸´×¢²áÏàÍ¬ÊÂ¼ş
+        // éå†å·²æ³¨å†Œçš„äº‹ä»¶ï¼Œé˜²æ­¢é‡å¤æ³¨å†Œç›¸åŒäº‹ä»¶
         for (std::weak_ptr<EventClass> & registeredEvent : registeredEvents_)
         {
-            // Ê¹ÓÃ weak_ptr µÄ lock() ·½·¨ÌáÉıÎª shared_ptr
+            // ä½¿ç”¨ weak_ptr çš„ lock() æ–¹æ³•æå‡ä¸º shared_ptr
             std::shared_ptr<EventClass> registeredEventPtr = registeredEvent.lock();
             std::shared_ptr<EventClass> eventPtr           = event.lock();
 
-            // Èç¹û×¢²áµÄÊÂ¼şºÍ´«ÈëµÄÊÂ¼şÏàÍ¬£¬Êä³öÈÕÖ¾²¢Ìø¹ı×¢²á
+            // å¦‚æœæ³¨å†Œçš„äº‹ä»¶å’Œä¼ å…¥çš„äº‹ä»¶ç›¸åŒï¼Œè¾“å‡ºæ—¥å¿—å¹¶è·³è¿‡æ³¨å†Œ
             if (registeredEventPtr == eventPtr)
             {
                 std::cout << "Skip: event already registered!" << std::endl;
                 return;
             }
         }
-        // ½«ÊÂ¼şÌí¼Óµ½ÊÂ¼şÁĞ±íÖĞ
+        // å°†äº‹ä»¶æ·»åŠ åˆ°äº‹ä»¶åˆ—è¡¨ä¸­
         registeredEvents_.emplace_back(event);
     }
 
-    // ¾²Ì¬·½·¨£¬ÓÃÓÚ×¢ÏúÊÂ¼ş
-    // ²ÎÊıÎª std::weak_ptr Ö¸ÏòµÄÊÂ¼ş¶ÔÏó
+    // é™æ€æ–¹æ³•ï¼Œç”¨äºæ³¨é”€äº‹ä»¶
+    // å‚æ•°ä¸º std::weak_ptr æŒ‡å‘çš„äº‹ä»¶å¯¹è±¡
     static void Unregister(std::weak_ptr<EventClass> event)
     {
-        // ±éÀúÒÑ×¢²áµÄÊÂ¼ş
+        // éå†å·²æ³¨å†Œçš„äº‹ä»¶
         for (auto eventIt = registeredEvents_.begin(); eventIt != registeredEvents_.end(); ++eventIt)
         {
-            // ½« weak_ptr ÌáÉıÎª shared_ptr
+            // å°† weak_ptr æå‡ä¸º shared_ptr
             std::shared_ptr<EventClass> registeredEventPtr = eventIt->lock();
             std::shared_ptr<EventClass> eventPtr           = event.lock();
 
-            // Èç¹ûÕÒµ½Æ¥ÅäµÄÊÂ¼ş£¬Ôò´ÓÁĞ±íÖĞÒÆ³ı¸ÃÊÂ¼ş
+            // å¦‚æœæ‰¾åˆ°åŒ¹é…çš„äº‹ä»¶ï¼Œåˆ™ä»åˆ—è¡¨ä¸­ç§»é™¤è¯¥äº‹ä»¶
             if (registeredEventPtr == eventPtr)
             {
                 registeredEvents_.erase(eventIt);
@@ -57,46 +57,41 @@ public:
         }
     }
 
-    // ¾²Ì¬Ä£°å·½·¨£¬ÓÃÓÚ´¥·¢ÊÂ¼ş
-    // ²ÎÊı fun Îª³ÉÔ±º¯ÊıÖ¸Õë£¬args Îª¿É±ä²ÎÊı
+    // é™æ€æ¨¡æ¿æ–¹æ³•ï¼Œç”¨äºè§¦å‘äº‹ä»¶
+    // å‚æ•° fun ä¸ºæˆå‘˜å‡½æ•°æŒ‡é’ˆï¼Œargs ä¸ºå¯å˜å‚æ•°
     template <typename EventFunction, typename... EventArgs>
     static void OnEvent(EventFunction eventFunction, EventArgs &&... args)
     {
-        // ±éÀúÒÑ×¢²áµÄÊÂ¼ş
+        // éå†å·²æ³¨å†Œçš„äº‹ä»¶
         for (const std::weak_ptr<EventClass> & registeredEvent : registeredEvents_)
         {
-            // ½« weak_ptr ÌáÉıÎª shared_ptr
+            // å°† weak_ptr æå‡ä¸º shared_ptr
             std::shared_ptr<EventClass> eventPtr = registeredEvent.lock();
 
-            // Èç¹ûÊÂ¼ş²»´æÔÚ£¨ÒÑÏú»Ù£©£¬Êä³ö´íÎóÈÕÖ¾²¢Ìø¹ı
+            // å¦‚æœäº‹ä»¶ä¸å­˜åœ¨ï¼ˆå·²é”€æ¯ï¼‰ï¼Œè¾“å‡ºé”™è¯¯æ—¥å¿—å¹¶è·³è¿‡
             if (!eventPtr)
             {
                 std::cerr << "Skip: event no longer exists!" << std::endl;
                 continue;
             }
 
-            // Ê¹ÓÃ³ÉÔ±º¯ÊıÖ¸Õë´¥·¢ÊÂ¼ş£¬µ÷ÓÃÊÂ¼ş¶ÔÏóµÄ³ÉÔ±º¯Êı
+            // ä½¿ç”¨æˆå‘˜å‡½æ•°æŒ‡é’ˆè§¦å‘äº‹ä»¶ï¼Œè°ƒç”¨äº‹ä»¶å¯¹è±¡çš„æˆå‘˜å‡½æ•°
             EventClass * eventObject = eventPtr.get();
             (eventObject->*eventFunction)(std::forward<EventArgs>(args)...);
         }
     }
 
 private:
-    // ¾²Ì¬³ÉÔ±±äÁ¿£¬´æ´¢ËùÓĞ×¢²áµÄÊÂ¼ş¶ÔÏó£¨Ê¹ÓÃ weak_ptr ÒÔ±ÜÃâÑ­»·ÒıÓÃ£©
+    // é™æ€æˆå‘˜å˜é‡ï¼Œå­˜å‚¨æ‰€æœ‰æ³¨å†Œçš„äº‹ä»¶å¯¹è±¡ï¼ˆä½¿ç”¨ weak_ptr ä»¥é¿å…å¾ªç¯å¼•ç”¨ï¼‰
     static std::list<std::weak_ptr<EventClass>> registeredEvents_;
 };
 
-// ³õÊ¼»¯¾²Ì¬³ÉÔ±±äÁ¿
+// åˆå§‹åŒ–é™æ€æˆå‘˜å˜é‡
 template <typename EventClass>
 std::list<std::weak_ptr<EventClass>> EventBus<EventClass>::registeredEvents_;
 
-// ÄÜ·ñĞŞ¸ÄÎª·¢²¼¶©ÔÄµÄÊÂ¼ş×ÜÏß,½Ó¿Ú²ÎÊıÎª:
-// publish("event_code"£¬QVariant var);
-// int ret = subscribe("event_code"£¬µ÷ÓÃº¯Êı(QVariant var)); //retÎª»Øµ÷´æ¸ù£¬Ã¿¸ö»Øµ÷+1£¬²»ÖØ¸´
-// ¶©ÔÄ´¦µÄ subscribe Í¬Ê±ÓĞ×¢²á¹¦ÄÜ£¬
-// unsubscribe(ret);È¡Ïû»Øµ÷²¢È¡Ïû×¢²á£¬ÄÜÊµÏÖÂğ£¿
-
-
-
-
-
+// èƒ½å¦ä¿®æ”¹ä¸ºå‘å¸ƒè®¢é˜…çš„äº‹ä»¶æ€»çº¿,æ¥å£å‚æ•°ä¸º:
+// publish("event_code"ï¼ŒQVariant var);
+// int ret = subscribe("event_code"ï¼Œè°ƒç”¨å‡½æ•°(QVariant var)); //retä¸ºå›è°ƒå­˜æ ¹ï¼Œæ¯ä¸ªå›è°ƒ+1ï¼Œä¸é‡å¤
+// è®¢é˜…å¤„çš„ subscribe åŒæ—¶æœ‰æ³¨å†ŒåŠŸèƒ½ï¼Œ
+// unsubscribe(ret);å–æ¶ˆå›è°ƒå¹¶å–æ¶ˆæ³¨å†Œï¼Œèƒ½å®ç°å—ï¼Ÿ

@@ -33,9 +33,8 @@ bool PluginA::init()
     }
     m_pt1 = new SubThread1(this);
     m_pt2 = new SubThread2(this);
-    //m_pt1->start();
+    // m_pt1->start();
     m_pt2->start();
-	QThread * t = QThread::currentThread();
     return true;
 }
 
@@ -49,7 +48,11 @@ void PluginA::addTestClass()
     qDebug() << "主线程id:" << QThread::currentThreadId();
     QVariant var("test");
     LEventBus::instance().publish("test_event", var);
-    if (m_TestClass)
+
+    QThread::sleep(2);
+    if (m_pt2)
     {
+        delete m_pt2;
+        m_pt2 = nullptr;
     }
 }

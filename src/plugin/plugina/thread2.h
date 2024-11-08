@@ -22,19 +22,21 @@ public:
     TestClass(QObject * parent = nullptr)
         : QObject(parent)
     {
-       // LEventBus::instance().subscribe("test_event", &TestClass::testSlots, this);
-       LEventBus::instance().subscribe("test_event", "testSlots", this);
+        // LEventBus::instance().subscribe("test_event", &TestClass::testSlots, this);
+        LEventBus::instance().subscribe("test_event", SLOT(testSlots), this);
+        qDebug() << "&TestClass::testSlots: " << &TestClass::testSlots;
     }
-    ~TestClass(){};
+    ~TestClass()
+    {
+        LEventBus::instance().unSubscribe("test_event", SLOT(testSlots), this);
+    };
 
 public slots:
-   Q_INVOKABLE  void testSlots( int a,int b)
+    Q_INVOKABLE void testSlots(const QVariant & var)
     {
-       qDebug() << "testSlots_Ïß³ÌidÎª£º" << QThread::currentThreadId();
-       qDebug() << "a£º" << a;
-       qDebug() << "b£º" << b;
+        qDebug() << "testSlots_çŽ°æˆid:" << QThread::currentThreadId();
+        qDebug() << var.toString();
     }
 };
-
 
 #endif

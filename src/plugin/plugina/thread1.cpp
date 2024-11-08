@@ -22,8 +22,7 @@ SubThread1::~SubThread1()
 
 void SubThread1::run()
 {
-	qDebug() << "子线程1线程id为：" << QThread::currentThreadId();
-
+    qDebug() << "子线程1线程id为：" << QThread::currentThreadId();
 
     exec();
 }

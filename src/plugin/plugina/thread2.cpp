@@ -23,8 +23,8 @@ SubThread2::~SubThread2()
 void SubThread2::run()
 {
     qDebug() << "子线程2线程id为：" << QThread::currentThreadId();
-    TestClass test;// = new TestClass;
+    TestClass test; // = new TestClass;
     // QObject::connect(test,&TestClass::testSlots);
     exec();
-    //delete test;
+    // delete test;
 }

@@ -27,8 +27,7 @@ public slots:
     void addTestClass();
 
 private:
-    QAction *   m_actionTestClass{nullptr}; // 按钮
-    TestClass * m_TestClass{nullptr};       // 类
+    QAction * m_actionTestClass{nullptr}; // 按钮
 
     SubThread1 * m_pt1{nullptr};
     SubThread2 * m_pt2{nullptr};
