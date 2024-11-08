@@ -25,7 +25,6 @@ QString PluginA::getname()
 
 bool PluginA::init()
 {
-    m_TestClass       = new TestClass;
     m_actionTestClass = new QAction(QString("按钮1"));
     if (m_actionTestClass)
     {

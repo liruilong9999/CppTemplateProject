@@ -22,13 +22,9 @@ SubThread2::~SubThread2()
 
 void SubThread2::run()
 {
-	QThread * t = QThread::currentThread();
-
-    qDebug() << "子线程2线程id为0：" << QThread::currentThread()->currentThreadId();
-    qDebug() << "子线程2线程id为1：" << QThread::currentThreadId();
-    LEventBus::instance().subscribe("test_event", [=](const QVariant & var) {
-        qDebug() << "子线程2接收数据，回调线程id为2：" << QThread::currentThreadId();
-    });
-
+    qDebug() << "子线程2线程id为：" << QThread::currentThreadId();
+    TestClass test;// = new TestClass;
+    // QObject::connect(test,&TestClass::testSlots);
     exec();
+    //delete test;
 }

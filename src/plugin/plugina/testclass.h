@@ -1,7 +1,7 @@
 #ifndef TESTCLASS_H
 #define TESTCLASS_H
 
-class TestClass
+class TestClass24
 {
 };
 
