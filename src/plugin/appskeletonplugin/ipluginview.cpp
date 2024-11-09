@@ -1,17 +1,6 @@
 
 #include <QDebug>
 #include "ipluginview.h"
-// 获取 IPluginView 实例
-
-QMutex IPluginView::m_mutex;
-
-IPluginView & IPluginView::getInstance()
-{
-    QMutexLocker locker(&m_mutex);
-
-    static IPluginView instance;
-    return instance;
-}
 
 // 注册组
 void IPluginView::registerGroup(const QString & groupName)
@@ -46,7 +35,7 @@ void IPluginView::registerAction(const QString & groupName, const QString & page
 }
 
 // 获取主窗口
-AppSkeleton * IPluginView::getMainWindow() const
+QMainWindow * IPluginView::getMainWindow()
 {
     return m_mainWindow;
 }
@@ -71,4 +60,13 @@ void IPluginView::createMenuBar(QMenuBar * menuBar)
 IPluginView::IPluginView()
 {
     m_mainWindow = new AppSkeleton;
+}
+
+IPluginView::~IPluginView()
+{
+    if (m_mainWindow)
+    {
+        delete m_mainWindow;
+		m_mainWindow = nullptr;
+    }
 }

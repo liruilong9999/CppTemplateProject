@@ -3,7 +3,7 @@
 
 #include <QThread>
 #include <QObject>
-#include <lib/leventbus/leventbus.h>
+#include <lib/lbase/leventbus.h>
 #include <QDebug>
 
 class SubThread2 : public QThread

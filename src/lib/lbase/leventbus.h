@@ -9,12 +9,11 @@
 #include <QVariant> // 引入 QVariant
 #include <QString>  // 引入 QString
 #include <iostream>
-#include <common/CircularQueue.h>
+#include <core/common/CircularQueue.h>
 #include <QThread>
 #include <memory>
 
-#include "leventbus_global.h"
-#include "leventbus.h"
+#include "lcore_global.h"
 
 struct LEventBusPrivate;
 
@@ -23,7 +22,7 @@ struct LEventBusPrivate;
 ///
 /// <remarks>	Liruilong, 2024/10/25. </remarks>
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-class LEVENTBUS_EXPORT LEventBus : public QThread
+class LCORE_EXPORT LEventBus : public QThread
 {
     Q_OBJECT
 public:
@@ -45,5 +44,21 @@ private:
 
     LEventBusPrivate * m_pData{nullptr};
 };
+
+// 简化使用方法
+inline void eventSubscribe(const QString & event, const char * slotName, QObject * obj)
+{
+    LEventBus::instance().subscribe(event, slotName, obj);
+}
+
+inline void eventUnSubscribe(const QString & event, const char * slotName, QObject * obj)
+{
+    LEventBus::instance().unSubscribe(event, slotName, obj);
+}
+
+inline void eventPublish(const QString & event, const QVariant & var)
+{
+    LEventBus::instance().publish(event, var);
+}
 
 #endif // LEVENTBUS_H

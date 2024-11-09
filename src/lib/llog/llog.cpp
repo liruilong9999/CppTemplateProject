@@ -2,10 +2,10 @@
 #include <iostream>
 #include <QDateTime>
 #include <QDebug>
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/rotating_file_sink.h>
+#include <core/spdlog/spdlog.h>
+#include <core/spdlog/sinks/basic_file_sink.h>
+#include <core/spdlog/sinks/stdout_color_sinks.h>
+#include <core/spdlog/sinks/rotating_file_sink.h>
 
 #include "llog.h"
 

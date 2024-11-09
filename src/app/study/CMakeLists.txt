@@ -7,6 +7,7 @@ get_filename_component(ProjectName ${AbsolutePathProject} NAME)
 # Qt 库
 set(QT_LIBRARY_LIST "Core" "Gui" "Widgets")
 # 链接库
-set(SELF_LIBRARY_LIST "pluginmanager" "appskeleton")
+set(SELF_LIBRARY_LIST "pluginmanager")
 # 创建项目
 CreateTarget(${ProjectName} "ExeCMD")
+ 

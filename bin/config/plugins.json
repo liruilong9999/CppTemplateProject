@@ -3,6 +3,10 @@
         {
             "name": "plugina",
             "isUsed": "1"
-        }
+        },	
+		{
+            "name": "appskeletonplugin",
+            "isUsed": "1"
+        }		
     ]
 }

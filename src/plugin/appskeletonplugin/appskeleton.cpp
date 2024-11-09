@@ -1,5 +1,3 @@
-
-
 #include "appskeleton.h"
 #include "ui_appskeleton.h"
 

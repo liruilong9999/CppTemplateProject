@@ -5,15 +5,12 @@ include(${ROOT_DIR}/cmake/module.cmake)
 set(AbsolutePathProject ${CMAKE_CURRENT_SOURCE_DIR})
 get_filename_component(ProjectName ${AbsolutePathProject} NAME)
 # Qt 库
-set(QT_LIBRARY_LIST "Core")
-
-#包含路径
-#include_directories(${ROOT_DIR}/include)
+set(QT_LIBRARY_LIST "Core" )
 
 # 链接库
 #set(SELF_LIBRARY_LIST "CPlusPlusReflection")
 # 预编译
-add_compile_definitions(LEVENTBUS_LIBRARY)
+#add_compile_definitions(COMMON_LIBRARY)
 
-# 创建项目 
-CreateTarget(${ProjectName} "Dll") 
+# 创建项目
+CreateTarget(${ProjectName} "Lib") 

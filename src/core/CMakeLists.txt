@@ -10,4 +10,8 @@
 # add_subdirectory(LWebView)
 # set_property(TARGET LWebView PROPERTY FOLDER "Core")
 
+add_subdirectory(common)
+set_property(TARGET common PROPERTY FOLDER "Core")
+
+
 

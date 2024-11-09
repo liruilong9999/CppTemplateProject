@@ -4,16 +4,14 @@ include(${ROOT_DIR}/cmake/module.cmake)
 # 获取文件名称
 set(AbsolutePathProject ${CMAKE_CURRENT_SOURCE_DIR})
 get_filename_component(ProjectName ${AbsolutePathProject} NAME)
-
 # Qt 库
-set(QT_LIBRARY_LIST "Core" "Gui" "Widgets" )
+set(QT_LIBRARY_LIST "Core" "Gui" "Widgets")
 
 # 链接库
-set(SELF_LIBRARY_LIST "llog" "lbase")
+set(SELF_LIBRARY_LIST "llog" "lbase" "iappskeleton")
 
 # 预编译
-add_compile_definitions(PLUGINA_LIBRARY) 
+add_compile_definitions(APPSKELETON_LIBRARY)
 
 # 创建项目
-CreateTarget(${ProjectName} "Dll" "Plugin") 
-   
+CreateTarget(${ProjectName} "Dll" "Plugin")  

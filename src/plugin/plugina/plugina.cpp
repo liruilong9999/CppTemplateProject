@@ -1,14 +1,15 @@
 #include <QDebug>
-#include <lib/appskeleton/ipluginview.h>
 #include <QAction>
 #include <QLabel>
 #include <QStatusBar>
 #include <QThread>
 
-#include <lib/leventbus/leventbus.h>
+#include <lib/lbase/leventbus.h>
+#include <lib/lbase/objectregister.h>
 #include <lib/llog/llog.h>
 
 #include <common/CircularQueue.h>
+#include <interface/iappskeleton/iappview.h>
 
 #include "plugina.h"
 #include "testclass.h"
@@ -26,11 +27,15 @@ QString PluginA::getname()
 bool PluginA::init()
 {
     m_actionTestClass = new QAction(QString("按钮1"));
-    if (m_actionTestClass)
+
+    connect(m_actionTestClass, &QAction::triggered, this, &PluginA::addTestClass);
+    // IPluginView::getInstance().registerAction(QString("组"), QString("页"), m_actionTestClass);  //todo,修改为基于抽象
+    IAppView * baseObj = static_cast<IAppView *>(ObjectRegistry::instance().getObject("IPluginView"));
+    if (baseObj)
     {
-        connect(m_actionTestClass, &QAction::triggered, this, &PluginA::addTestClass);
-        IPluginView::getInstance().registerAction(QString("组"), QString("页"), m_actionTestClass);
+        baseObj->registerAction(QString("组"), QString("页"), m_actionTestClass);
     }
+
     m_pt1 = new SubThread1(this);
     m_pt2 = new SubThread2(this);
     // m_pt1->start();

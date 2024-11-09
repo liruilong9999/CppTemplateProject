@@ -1,7 +1,7 @@
 #ifndef COMMUNATEMODULE_H
 #define COMMUNATEMODULE_H
 
-#include <common/TSingleton.hpp>
+#include <core/common/TSingleton.hpp>
 #include "communatemodule_global.h"
 
 class COMMUNATEMODULE_EXPORT Communatemodule : public TSingleton<Communatemodule>
