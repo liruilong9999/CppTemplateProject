@@ -13,5 +13,8 @@
 add_subdirectory(common)
 set_property(TARGET common PROPERTY FOLDER "Core")
 
+add_subdirectory(lbase)
+set_property(TARGET lbase PROPERTY FOLDER "Core")
 
-
+add_subdirectory(pluginmanager)
+set_property(TARGET pluginmanager PROPERTY FOLDER "Core")

@@ -4,9 +4,7 @@
 #include <QStatusBar>
 #include <QThread>
 
-#include <lib/lbase/leventbus.h>
-#include <lib/lbase/objectregister.h>
-#include <lib/llog/llog.h>
+#include <lbase/lbase.h>
 
 #include <common/CircularQueue.h>
 #include "appskeleton.h"

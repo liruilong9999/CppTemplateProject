@@ -8,12 +8,12 @@ ObjectRegistry & ObjectRegistry::instance()
     return instance;
 }
 
-void ObjectRegistry::registerObject(const QString & name, void * object)
+void ObjectRegistry::registerObject(const QString & name, QObject * object)
 {
     registry[name] = object;
 }
 
-void * ObjectRegistry::getObject(const QString & name) const
+QObject * ObjectRegistry::getObject(const QString & name) const
 {
     auto it = registry.find(name);
     if (it != registry.end())

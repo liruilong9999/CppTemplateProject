@@ -13,7 +13,6 @@ public:
 
     void registerSig();
     void unRegisterSig();
-
 private:
     Communatemodule();
 

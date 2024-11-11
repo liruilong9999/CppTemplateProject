@@ -8,7 +8,7 @@ get_filename_component(ProjectName ${AbsolutePathProject} NAME)
 set(QT_LIBRARY_LIST "Core" "Gui" "Widgets")
 
 # 链接库
-set(SELF_LIBRARY_LIST "llog" "lbase" "iappskeleton")
+set(SELF_LIBRARY_LIST "lbase" "iappskeleton")
 
 # 预编译
 add_compile_definitions(APPSKELETON_LIBRARY)

@@ -2,7 +2,7 @@
 #include <list>
 #include <memory>
 #include <iostream>
-#include <lib/lbase/leventbus.h>
+#include <lbase/lbase.h>
 #include <QThread>
 #include <QVariant>
 #include <QDebug>

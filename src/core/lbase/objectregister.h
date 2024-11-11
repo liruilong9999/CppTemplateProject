@@ -4,6 +4,7 @@
 #include <QString>
 #include <QMap>
 #include <memory>
+#include <QObject>
 #include "lcore_global.h"
 
 class LCORE_EXPORT ObjectRegistry
@@ -11,13 +12,13 @@ class LCORE_EXPORT ObjectRegistry
 public:
     static ObjectRegistry & instance();
 
-    void registerObject(const QString & name, void * object);
+    void registerObject(const QString & name, QObject * object);
 
-    void * getObject(const QString & name) const;
+    QObject * getObject(const QString & name) const;
 
 private:
     ObjectRegistry(); // 私有构造函数，单例模式
-    QMap<QString, void *> registry;
+    QMap<QString, QObject *> registry;
 };
 
 #endif

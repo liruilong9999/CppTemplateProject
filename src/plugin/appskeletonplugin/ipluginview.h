@@ -23,10 +23,12 @@ class IAppView;
  * 该类管理插件的分层注册，包含 Group、Page 和 Action 三个层级。插件在初始化时可以通过该类进行分层注册，
  * 并在主窗口显示时动态创建对应的菜单栏、分隔符和动作。
  */
-class APPSKELETON_EXPORT IPluginView : public IAppView
+class APPSKELETON_EXPORT IPluginView : public QObject,
+                                       public IAppView
 {
+    Q_OBJECT
 public:
-    IPluginView();
+    IPluginView(QObject *parent = nullptr);
     ~IPluginView();
 
     // 注册组

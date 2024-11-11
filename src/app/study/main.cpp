@@ -1,6 +1,6 @@
 #include <QApplication>
 #include <QMenuBar>
-#include <lib/pluginmanager/pluginmanager.h>
+#include <pluginmanager/pluginmanager.h>
 
 int main(int argc, char * argv[])
 {

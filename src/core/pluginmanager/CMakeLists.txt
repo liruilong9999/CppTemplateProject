@@ -7,13 +7,11 @@ get_filename_component(ProjectName ${AbsolutePathProject} NAME)
 # Qt 库
 set(QT_LIBRARY_LIST "Core")
 
-#包含路径
-#include_directories(${ROOT_DIR}/include)
+# 链接自身库
+set(SELF_LIBRARY_LIST "lbase")
 
-# 链接库
-#set(SELF_LIBRARY_LIST "CPlusPlusReflection")
 # 预编译
-add_compile_definitions(LLOG_LIBRARY)
-
+add_compile_definitions(PLUGINSMANAGER_LIBRARY)
+ 
 # 创建项目
 CreateTarget(${ProjectName} "Dll")

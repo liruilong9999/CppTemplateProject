@@ -4,11 +4,11 @@
 #include <core/common/TSingleton.hpp>
 #include <string>
 #include <QDateTime>
-#include "llog_global.h"
+#include "lcore_global.h"
 
 struct LLogPrivate;
 
-class LLOG_EXPORT LLog : public TSingleton<LLog>
+class LCORE_EXPORT LLog : public TSingleton<LLog>
 {
     friend class TSingleton<LLog>;
 

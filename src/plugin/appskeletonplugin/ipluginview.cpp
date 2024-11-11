@@ -57,7 +57,8 @@ void IPluginView::createMenuBar(QMenuBar * menuBar)
     }
 }
 
-IPluginView::IPluginView()
+IPluginView::IPluginView(QObject *parent)
+	:QObject(parent)
 {
     m_mainWindow = new AppSkeleton;
 }

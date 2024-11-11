@@ -4,9 +4,7 @@
 #include <QStatusBar>
 #include <QThread>
 
-#include <lib/lbase/leventbus.h>
-#include <lib/lbase/objectregister.h>
-#include <lib/llog/llog.h>
+#include <lbase/lbase.h>
 
 #include <common/CircularQueue.h>
 #include <interface/iappskeleton/iappview.h>
@@ -30,7 +28,7 @@ bool PluginA::init()
 
     connect(m_actionTestClass, &QAction::triggered, this, &PluginA::addTestClass);
     // IPluginView::getInstance().registerAction(QString("组"), QString("页"), m_actionTestClass);  //todo,修改为基于抽象
-    IAppView * baseObj = static_cast<IAppView *>(ObjectRegistry::instance().getObject("IPluginView"));
+    IAppView * baseObj = dynamic_cast<IAppView *>(ObjectRegistry::instance().getObject("IPluginView"));
     if (baseObj)
     {
         baseObj->registerAction(QString("组"), QString("页"), m_actionTestClass);

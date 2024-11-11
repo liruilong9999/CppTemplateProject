@@ -9,9 +9,11 @@ class TSingleton
 {
 public:
     // 获取单例实例
-    static T * getInstance();
-
-    static QMutex m_mutex; // 保护实例的互斥量
+    static T * getInstance()
+    {
+        static T instance;
+        return &instance;
+    }
 
 protected:
     TSingleton()  = default;
@@ -23,16 +25,4 @@ protected:
     TSingleton(TSingleton &&)                  = delete;
     TSingleton & operator=(TSingleton &&)      = delete;
 };
-
-template <class T>
-QMutex TSingleton<T>::m_mutex;
-
-template <class T>
-T * TSingleton<T>::getInstance()
-{
-    QMutexLocker locker(&m_mutex);
-    static T     instance;
-    return &instance;
-}
-
 #endif // TSINGLETON_H

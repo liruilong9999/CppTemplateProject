@@ -9,7 +9,7 @@
 #include <QFileInfoList>
 
 #include <common/IPlugin.h>
-#include <lib/llog/llog.h>
+#include <lbase/llog.h>
 #include <iostream>
 
 #include "pluginmanager.h"

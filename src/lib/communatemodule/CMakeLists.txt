@@ -8,7 +8,7 @@ get_filename_component(ProjectName ${AbsolutePathProject} NAME)
 set(QT_LIBRARY_LIST "Core")
 
 # 链接库
-#set(SELF_LIBRARY_LIST "CPlusPlusReflection")
+set(SELF_LIBRARY_LIST "lbase")
 # 预编译
 add_compile_definitions(COMMUNATEMODULE_LIBRARY)
 

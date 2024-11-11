@@ -107,7 +107,7 @@ LLog::LLog()
 
     m_logData->mylogger->set_pattern("[%Y-%m-%d %H:%M:%S.%e](%l): %v");
     m_logData->mylogger->set_level(spdlog::level::debug);
-    spdlog::flush_every(std::chrono::seconds(5)); // 定期刷新日志缓冲区
+    spdlog::flush_every(std::chrono::seconds(3)); // 定期刷新日志缓冲区
 }
 
 LLog::~LLog()
