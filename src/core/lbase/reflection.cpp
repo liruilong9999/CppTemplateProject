@@ -4,28 +4,28 @@ QObject * ClassFactory::getClassByName(const QString & className, ObjectCreation
 {
     if (mode == ObjectCreationMode::Singleton)
     {
-        // µ¥ÀıÄ£Ê½£º¼ì²éÊÇ·ñÒÑÓĞ¶ÔÏó
+        // å•ä¾‹æ¨¡å¼ï¼šæ£€æŸ¥æ˜¯å¦å·²æœ‰å¯¹è±¡
         if (!m_singletonsMap.contains(className))
         {
-            // Èç¹ûÃ»ÓĞ£¬´´½¨²¢»º´æ¶ÔÏó
+            // å¦‚æœæ²¡æœ‰ï¼Œåˆ›å»ºå¹¶ç¼“å­˜å¯¹è±¡
             auto createFunc = m_classMap.value(className);
             if (createFunc)
             {
                 m_singletonsMap[className] = createFunc();
             }
         }
-        return m_singletonsMap.value(className, nullptr); // Èç¹ûÃ»ÓĞ£¬Ôò·µ»Ø nullptr
+        return m_singletonsMap.value(className, nullptr); // å¦‚æœæ²¡æœ‰ï¼Œåˆ™è¿”å› nullptr
     }
     else
     {
-        // Ô­ĞÍÄ£Ê½£ºÃ¿´Î´´½¨ĞÂ¶ÔÏó
+        // åŸå‹æ¨¡å¼ï¼šæ¯æ¬¡åˆ›å»ºæ–°å¯¹è±¡
         auto createFunc = m_classMap.value(className);
         if (createFunc)
         {
             return createFunc();
         }
     }
-    return nullptr; // Èç¹ûÃ»ÓĞÕÒµ½ÏàÓ¦µÄ´´½¨º¯Êı£¬·µ»Ø nullptr
+    return nullptr; // å¦‚æœæ²¡æœ‰æ‰¾åˆ°ç›¸åº”çš„åˆ›å»ºå‡½æ•°ï¼Œè¿”å› nullptr
 }
 
 void ClassFactory::registClass(const QString & name, PTRCreateObject method)
