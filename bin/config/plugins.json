@@ -5,6 +5,10 @@
             "isUsed": "1"
         },	
 		{
+            "name": "pluginb",
+            "isUsed": "1"
+        },	
+		{
             "name": "appskeletonplugin",
             "isUsed": "1"
         }		

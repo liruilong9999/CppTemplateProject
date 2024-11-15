@@ -4,5 +4,6 @@
 #include "leventbus.h"
 #include "llog.h"
 #include "objectregister.h"
+#include "reflection.h"
 
 #endif
