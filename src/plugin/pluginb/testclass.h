@@ -26,8 +26,12 @@ public:
     // ReflectionRegistry * res = ReflectionRegistry::getInstance();
     void print() override
     {
-        qDebug() << "testClass2";
+        qDebug() << "testClass2:" << m_testNumber;
+        m_testNumber++;
     };
+
+private:
+    int m_testNumber{0};
 };
 REGISTER(testClass2, "testClassStr2"); // 仅注册类，不指定模式
 

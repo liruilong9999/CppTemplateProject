@@ -43,9 +43,7 @@ bool PluginB::clean()
 
 void PluginB::addTestClass()
 {
-    QObject *    cla = ClassFactory::getInstance().getClassByName("testClassStr2");
+    QObject *    cla = ClassFactory::getInstance().getClassByName("testClassStr2",ObjectCreationMode::Singleton);
     testClass *  tc1 = qobject_cast<testClass *>(cla);
-    testClass2 * tc2 = qobject_cast<testClass2 *>(cla);
     tc1->print();
-    tc2->print();
 }
