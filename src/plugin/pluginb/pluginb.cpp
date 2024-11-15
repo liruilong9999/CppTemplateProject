@@ -33,7 +33,7 @@ bool PluginB::init()
     {
         baseObj->registerAction(QString("组"), QString("页"), m_actionTestClass);
     }
-	return true;
+    return true;
 }
 
 bool PluginB::clean()
@@ -43,8 +43,9 @@ bool PluginB::clean()
 
 void PluginB::addTestClass()
 {
-    QObject *   cla = ReflectionRegistry::getInstance()->getObject("ClassNameStr");
-    testClass * tc1 = qobject_cast<testClass *>(cla);
-    testClass * tc2 = qobject_cast<testClass2 *>(cla);
+    QObject *    cla = ClassFactory::getInstance().getClassByName("testClassStr2");
+    testClass *  tc1 = qobject_cast<testClass *>(cla);
+    testClass2 * tc2 = qobject_cast<testClass2 *>(cla);
     tc1->print();
+    tc2->print();
 }
