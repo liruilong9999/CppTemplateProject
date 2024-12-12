@@ -11,14 +11,16 @@
 #include <common/IPlugin.h>
 #include <lbase/llog.h>
 #include <iostream>
+#include <QXmlStreamReader>
 
 #include "pluginmanager.h"
 
-#define PLUGIN_CONF_PATH QString(qApp->applicationDirPath() + "/config/plugins.json")
+#define PLUGIN_CONF_PATH QString(qApp->applicationDirPath() + "/config/config.xml")
 
 struct PluginCongInfo
 {
     QString pluginName{""};
+    QString pluginPath{""};
     QString isUsed{"1"};
 };
 
@@ -55,7 +57,7 @@ bool PluginManagerPrivate::check(const QString & filepath)
         {
             QString strcons = "Missing dependency: " + name.toString() + " for plugin " + path;
             LOG_INFO(strcons);
-            //qDebug() << strcons;
+            // qDebug() << strcons;
             return false;
         }
         // 再检测插件版本
@@ -64,7 +66,7 @@ bool PluginManagerPrivate::check(const QString & filepath)
             QString strcons = "Version mismatch: " + name.toString() + " version " + m_versions.value(m_names.key(name)).toString() +
                               " but " + version.toString() + " required for plugin " + path;
             LOG_INFO(strcons);
-            //qDebug() << strcons;
+            // qDebug() << strcons;
             return false;
         }
         // 最后检测被依赖的插件是否还依赖其他的插件
@@ -72,7 +74,7 @@ bool PluginManagerPrivate::check(const QString & filepath)
         {
             QString strcons = "Corrupted dependency: " + name.toString() + " for plugin " + path;
             LOG_INFO(strcons);
-            //qDebug() << strcons;
+            // qDebug() << strcons;
             return false;
         }
     }
@@ -99,12 +101,12 @@ bool PluginManager::loadPlugin(QString & filePath)
     QPluginLoader * loader = new QPluginLoader(filePath);
     QFileInfo       fileInfo(filePath);
     QString         fileName = fileInfo.fileName();
-    if (loader->load())
+    if (loader && loader->load())
     {
         QString strcons = QString("加载插件(%1)成功").arg(fileName);
         LOG_INFO(strcons);
-        //qDebug() << strcons;
-		//std::cout << strcons.toStdString()<<std::endl;
+        // qDebug() << strcons;
+        // std::cout << strcons.toStdString()<<std::endl;
         IPlugin * plugin = qobject_cast<IPlugin *>(loader->instance());
         if (plugin)
         {
@@ -119,7 +121,7 @@ bool PluginManager::loadPlugin(QString & filePath)
     }
     QString strcons = QString("加载插件(%1)失败").arg(fileName);
     LOG_WARN(strcons);
-    //qDebug() << strcons;
+    // qDebug() << strcons;
     return false;
 }
 
@@ -138,13 +140,13 @@ bool PluginManager::unloadPlugin(QString & filePath)
         loader          = nullptr;
         QString strcons = QString("卸载插件(%1)成功").arg(fileName);
         LOG_INFO(strcons);
-        //qDebug() << strcons;
+        // qDebug() << strcons;
 
         return true;
     }
     QString strcons = QString("卸载插件(%1)失败").arg(fileName);
     LOG_WARN(strcons);
-    //qDebug() << strcons;
+    // qDebug() << strcons;
     return false;
 }
 
@@ -173,6 +175,33 @@ bool PluginManager::loadAllPlugin()
                     useableList.push_back(fileInfo);
                 }
             }
+        }
+    }
+
+    for (auto configFileName : m_pluginData->pluginCongInfo)
+    {
+        bool hasPlugin = false;
+        for (const QFileInfo & fileInfo : pluginsInfo)
+        {
+            QString fileName = fileInfo.baseName();
+            if (fileName == configFileName.pluginPath)
+            {
+                if (QLibrary::isLibrary(fileInfo.absoluteFilePath()))
+                {
+                    hasPlugin             = true;
+                    PluginCongInfo config = m_pluginData->pluginCongInfo.value(fileName);
+                    if (config.isUsed == "1")
+                    {
+                        useableList.push_back(fileInfo);
+                    }
+                }
+            }
+        }
+        // 打印未找到插件的信息
+        if (!hasPlugin)
+        {
+            QString strcons = QString("未找到插件(%1),动态库为：%2").arg(configFileName.pluginName).arg(configFileName.pluginPath);
+            LOG_WARN(strcons);
         }
     }
 
@@ -210,13 +239,13 @@ bool PluginManager::loadAllPlugin()
                         {
                             QString strcons = QString("初始化插件(%1)成功").arg(pluginName);
                             LOG_INFO(strcons);
-                            //qDebug() << strcons;
+                            // qDebug() << strcons;
                         }
                         else
                         {
                             QString strcons = QString("初始化插件(%1)失败").arg(pluginName);
                             LOG_WARN(strcons);
-                            //qDebug() << strcons;
+                            // qDebug() << strcons;
                         }
                     }
                 }
@@ -251,13 +280,13 @@ bool PluginManager::unloadAllPlugin()
                         {
                             QString strcons = QString("清理插件(%1)成功").arg(fileInfo.baseName());
                             LOG_INFO(strcons);
-                            //qDebug() << strcons;
+                            // qDebug() << strcons;
                         }
                         else
                         {
                             QString strcons = QString("初始化插件(%1)失败").arg(fileInfo.baseName());
                             LOG_WARN(strcons);
-                            //qDebug() << strcons;
+                            // qDebug() << strcons;
                         }
                     }
                 }
@@ -313,41 +342,49 @@ void PluginManager::setPluginList()
     {
         QString strcons = QString("Failed to open config file:" + m_configFile);
         LOG_WARN(strcons);
-        //qDebug() << strcons;
+        // qDebug() << strcons;
         return;
     }
     QString strcons = QString("读取配置文件成功:" + m_configFile);
     LOG_INFO(strcons);
-    //qDebug() << strcons;
-    QByteArray data = file.readAll();
-    file.close();
+    // qDebug() << strcons;
 
-    QJsonDocument doc         = QJsonDocument::fromJson(data);
-    QJsonObject   obj         = doc.object();
-    QJsonArray    pluginArray = obj["plugins"].toArray();
+    QXmlStreamReader xml(&file);
 
-    m_pluginData->pluginCongInfo.clear();
-    m_pluginData->m_loadOrder.clear();
-
-    foreach (const QJsonValue & value, pluginArray)
+    while (!xml.atEnd() && !xml.hasError())
     {
-        QJsonObject pluginObj  = value.toObject();
-        QString     pluginName = pluginObj["name"].toString();
+        QXmlStreamReader::TokenType token = xml.readNext();
+
+        if (token == QXmlStreamReader::StartDocument)
+        {
+            continue;
+        }
+
+        if (token == QXmlStreamReader::StartElement)
+        {
+            if (xml.name() == "plugin")
+            {
+                // Get the attributes of the plugin element
+                QXmlStreamAttributes attributes = xml.attributes();
+                QString              name       = attributes.value("name").toString();
+                QString              path       = attributes.value("path").toString();
+                QString              isUsed     = attributes.value("isUsed").toString();
 #ifdef _DEBUG
-        pluginName = pluginName + "d";
+                path = path + "d";
 #else
 
 #endif
+                PluginCongInfo info;
+                info.pluginName = name;
+                info.pluginPath = path;
+                info.isUsed     = isUsed;
 
-        QString        isUsed = pluginObj["isUsed"].toString();
-        PluginCongInfo info;
-        info.pluginName = pluginName;
-        info.isUsed     = isUsed;
-
-        if (info.isUsed == "1")
-        {
-            m_pluginData->pluginCongInfo.insert(info.pluginName, info);
-            m_pluginData->m_loadOrder.append(info.pluginName);
+                if (info.isUsed == "1")
+                {
+                    m_pluginData->pluginCongInfo.insert(info.pluginPath, info);
+                    m_pluginData->m_loadOrder.append(info.pluginPath);
+                }
+            }
         }
     }
 }
