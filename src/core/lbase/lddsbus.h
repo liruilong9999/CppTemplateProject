@@ -9,6 +9,13 @@
 #include "lcore_global.h"
 #include "leventbus.h"
 
+////////////////////////////////////////////////////////////////////////////////////////////////////
+/// <summary>	The DDS bus. </summary>
+///				DDS类，用于分布式通信
+///				这个域必须引用方式创建，暂时不支持多个域
+/// <remarks>	Liruilong, 2024/12/26. </remarks>
+////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class LDdsBus : public TSingleton<LDdsBus>
 {
     friend class TSingleton<LDdsBus>;
@@ -21,9 +28,8 @@ public:
     // 序列化 将 QVariant 转换为 QByteArray
     QByteArray serializeVariant(const QVariant & variant);
 	// 反序列化 
-	// // 从 QByteArray 恢复 QVariant
+	// 从 QByteArray 恢复 QVariant
     QVariant deserializeVariant(const QByteArray & byteArray);
-
 
     // 创建域
     void createDomain(unsigned int domain = 0);

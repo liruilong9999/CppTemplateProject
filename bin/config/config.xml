@@ -4,4 +4,8 @@
         <plugin name="插件b" path="pluginb" isUsed="1" />
         <plugin name="主界面插件" path="appskeletonplugin" isUsed="1" />
     </pluginList>
+	<domain>
+	<!-- 域id默认为50，这里必须配置 -->
+		<domainParam id="50" />  
+	</domain>
 </root>
