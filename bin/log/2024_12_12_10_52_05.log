@@ -1,0 +1,17 @@
+[2024-12-12 10:52:05.067](info): 读取配置文件成功:D:/code/git/CppTemplateProject/bin/config/config.xml
+[2024-12-12 10:52:05.074](info): 加载插件(pluginad.dll)成功
+[2024-12-12 10:52:05.075](info): 加载插件(pluginad.dll)成功
+[2024-12-12 10:52:05.080](info): 加载插件(pluginbd.dll)成功
+[2024-12-12 10:52:05.081](info): 加载插件(pluginbd.dll)成功
+[2024-12-12 10:52:05.089](info): 加载插件(appskeletonplugind.dll)成功
+[2024-12-12 10:52:05.482](info): 加载插件(appskeletonplugind.dll)成功
+[2024-12-12 10:52:05.483](info): 初始化插件(pluginad)成功
+[2024-12-12 10:52:05.517](info): 初始化插件(pluginbd)成功
+[2024-12-12 10:52:05.865](info): 初始化插件(appskeletonplugind)成功
+[2024-12-12 10:52:12.917](info): (PluginB):infotestpluginb
+[2024-12-12 10:52:17.410](info): 清理插件(appskeletonplugind)成功
+[2024-12-12 10:52:17.410](info): 清理插件(pluginbd)成功
+[2024-12-12 10:52:17.410](info): 清理插件(pluginad)成功
+[2024-12-12 10:52:17.410](warning): 卸载插件(appskeletonplugind.dll)失败
+[2024-12-12 10:52:17.411](warning): 卸载插件(pluginbd.dll)失败
+[2024-12-12 10:52:17.411](warning): 卸载插件(pluginad.dll)失败

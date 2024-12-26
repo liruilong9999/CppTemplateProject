@@ -1,0 +1,10 @@
+[2024-12-25 14:36:05.165](info): 读取配置文件成功:D:/code/git/CppTemplateProject/bin/config/config.xml
+[2024-12-25 14:36:05.178](info): 加载插件(pluginad.dll)成功
+[2024-12-25 14:36:05.178](info): 加载插件(pluginad.dll)成功
+[2024-12-25 14:36:05.188](info): 加载插件(pluginbd.dll)成功
+[2024-12-25 14:36:05.188](info): 加载插件(pluginbd.dll)成功
+[2024-12-25 14:36:05.195](info): 加载插件(appskeletonplugind.dll)成功
+[2024-12-25 14:36:05.662](info): 加载插件(appskeletonplugind.dll)成功
+[2024-12-25 14:36:05.664](info): 初始化插件(pluginad)成功
+[2024-12-25 14:36:05.665](info): 初始化插件(pluginbd)成功
+[2024-12-25 14:36:06.021](info): 初始化插件(appskeletonplugind)成功

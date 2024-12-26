@@ -4,8 +4,10 @@
         <plugin name="插件b" path="pluginb" isUsed="1" />
         <plugin name="主界面插件" path="appskeletonplugin" isUsed="1" />
     </pluginList>
-	<domain>
-	<!-- 域id默认为50，这里必须配置 -->
-		<domainParam id="50" />  
-	</domain>
+	<paramList>
+		<!-- 域id默认为50，这里必须配置 -->
+		<param name="dds域id"   mark="root.domainid.data" data="50" />
+		<param name="测试名称"  mark="root.str1.data"     data="str1111" />
+		<param name="测试名称2" mark="root.num1.data"     data="345"     />
+	</paramList>
 </root>

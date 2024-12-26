@@ -5,7 +5,7 @@ include(${ROOT_DIR}/cmake/module.cmake)
 set(AbsolutePathProject ${CMAKE_CURRENT_SOURCE_DIR})
 get_filename_component(ProjectName ${AbsolutePathProject} NAME)
 # Qt 库
-set(QT_LIBRARY_LIST "Core")
+set(QT_LIBRARY_LIST "Core" "Xml")
 
 #包含路径
 #include_directories(${ROOT_DIR}/include)
