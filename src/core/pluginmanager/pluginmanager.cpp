@@ -90,12 +90,21 @@ PluginManager & PluginManager::GetInstance()
 
 bool PluginManager::loadPlugin(QString & filePath)
 {
+	QString strcons;
     if (!QLibrary::isLibrary(filePath))
+    {
+        strcons = QString("插件(%1)加载失败，并非加载动态库！").arg(filePath);
+        LOG_WARN(strcons);
         return false;
+    }
 
     // 检测依赖
     if (!m_pluginData && !m_pluginData->check(filePath))
+    {
+        strcons = QString("插件(%1)加载失败，依赖检查不过关！").arg(filePath);
+        LOG_WARN(strcons);
         return false;
+    }
 
     // 加载插件
     QPluginLoader * loader = new QPluginLoader(filePath);
@@ -103,7 +112,7 @@ bool PluginManager::loadPlugin(QString & filePath)
     QString         fileName = fileInfo.fileName();
     if (loader && loader->load())
     {
-        QString strcons = QString("加载插件(%1)成功").arg(fileName);
+        strcons = QString("加载插件(%1)成功").arg(fileName);
         LOG_INFO(strcons);
         // qDebug() << strcons;
         // std::cout << strcons.toStdString()<<std::endl;
@@ -119,7 +128,7 @@ bool PluginManager::loadPlugin(QString & filePath)
         }
         return true;
     }
-    QString strcons = QString("加载插件(%1)失败").arg(fileName);
+    strcons = QString("加载插件(%1)失败").arg(fileName);
     LOG_WARN(strcons);
     // qDebug() << strcons;
     return false;
@@ -170,6 +179,7 @@ bool PluginManager::loadAllPlugin()
             if (m_pluginData->pluginCongInfo.contains(fileName))
             {
                 PluginCongInfo config = m_pluginData->pluginCongInfo.value(fileName);
+
                 if (config.isUsed == "1")
                 {
                     useableList.push_back(fileInfo);
@@ -178,36 +188,10 @@ bool PluginManager::loadAllPlugin()
         }
     }
 
-    for (auto configFileName : m_pluginData->pluginCongInfo)
-    {
-        bool hasPlugin = false;
-        for (const QFileInfo & fileInfo : pluginsInfo)
-        {
-            QString fileName = fileInfo.baseName();
-            if (fileName == configFileName.pluginPath)
-            {
-                if (QLibrary::isLibrary(fileInfo.absoluteFilePath()))
-                {
-                    hasPlugin             = true;
-                    PluginCongInfo config = m_pluginData->pluginCongInfo.value(fileName);
-                    if (config.isUsed == "1")
-                    {
-                        useableList.push_back(fileInfo);
-                    }
-                }
-            }
-        }
-        // 打印未找到插件的信息
-        if (!hasPlugin)
-        {
-            QString strcons = QString("未找到插件(%1),动态库为：%2").arg(configFileName.pluginName).arg(configFileName.pluginPath);
-            LOG_WARN(strcons);
-        }
-    }
-
     // 按配置文件中的顺序加载插件
     for (const QString & pluginName : m_pluginData->m_loadOrder)
     {
+        bool canLoad = false;
         for (const QFileInfo & fileInfo : useableList)
         {
             if (fileInfo.baseName() == pluginName)
@@ -215,9 +199,15 @@ bool PluginManager::loadAllPlugin()
                 QString path = fileInfo.absoluteFilePath();
                 if (loadPlugin(path))
                 {
-                    scanMetaData(path);
+                    //scanMetaData(path);
+                    canLoad = true;
                 }
             }
+        }
+        if (!canLoad)
+        {
+            QString strcons = QString("未找到插件(%1),动态库为：%2").arg(pluginName).arg(pluginName);
+            LOG_WARN(strcons);
         }
     }
 
@@ -318,11 +308,27 @@ QList<QString> PluginManager::getPluginsName()
 
 void PluginManager::scanMetaData(const QString & filepath)
 {
+    QString strcons;
     if (!m_pluginData)
+    {
+        strcons = QString("插件(%1)加载失败，m_pluginData 为空指针！").arg(filepath);
+        LOG_WARN(strcons);
         return;
+    }
     if (!QLibrary::isLibrary(filepath))
+    {
+        strcons = QString("插件(%1)加载失败，并非加载动态库！").arg(filepath);
+        LOG_WARN(strcons);
         return;
+    }
     QPluginLoader * loader = new QPluginLoader(filepath);
+	if(!loader)
+    {
+        strcons = QString("插件(%1)加载失败，依赖检查失败！").arg(filepath);
+        LOG_WARN(strcons);
+        return;
+    }
+
     QJsonObject     json   = loader->metaData().value("MetaData").toObject();
 
     QVariant var = json.value("name").toVariant();

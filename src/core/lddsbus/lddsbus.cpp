@@ -41,6 +41,8 @@ struct DomainInfo
         , subscriberPlayback(participantPlayback)
         , readerPlayback(subscriberPlayback, topicPlayback)
     {
+        LOG_INFO(QString("模块(LDdsBus)创建态势展示域成功，域ID为：%1").arg(domainIdTrans()));
+        LOG_INFO(QString("模块(LDdsBus)创建回放域域成功，域ID为：%1").arg(domainIdPlayback()));
     }
 
     uint32_t domainIdTrans()
