@@ -71,6 +71,11 @@ struct LDdsBusPrivate
     DomainInfo domainInfo; // 域信息
 };
 
+void ddsPublishTopic(QString event, QVariant var)
+{
+    LDdsBus::instance().publishTopic(event, var);
+}
+
 LDdsBus::LDdsBus()
     : m_pPrivate(new LDdsBusPrivate)
 {
