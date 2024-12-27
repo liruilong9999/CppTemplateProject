@@ -68,13 +68,13 @@ void AppConfig::loadConfig(const QString & filePath)
 }
 
 // 获取配置项的方法
-QString AppConfig::getAppConfig(const QString  mark, const QString  defaultValue) const
+QString AppConfig::getAppConfig(QString  mark, QString  defaultValue) const
 {
     return paramMap.value(mark, defaultValue);
 }
 
 // 设置配置项的方法
-void AppConfig::setAppConfig(const QString  mark, const QString  data)
+void AppConfig::setAppConfig(QString  mark, QString  data)
 {
     paramMap.insert(mark, data);
 }

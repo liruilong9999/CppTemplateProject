@@ -10,4 +10,4 @@ set(QT_LIBRARY_LIST "Core" "Gui" "Widgets")
 set(SELF_LIBRARY_LIST "pluginmanager" "luicommon" "lbase" "lddsbus")
 # 创建项目
 CreateTarget(${ProjectName} "ExeCMD") 
-  
+   

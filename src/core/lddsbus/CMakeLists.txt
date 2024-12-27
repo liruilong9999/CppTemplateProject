@@ -11,9 +11,9 @@ set(QT_LIBRARY_LIST "Core" "Xml")
 #include_directories(${ROOT_DIR}/include)
 
 # 链接库
-# set(SELF_LIBRARY_LIST  "cycloneddsidl" "cycloneddsidlcxx" "ddsc" "ddscxx" "lddsbus")
+set(SELF_LIBRARY_LIST  "cycloneddsidl" "cycloneddsidlcxx" "ddsc" "ddscxx" "lbase")
 # 预编译
-add_compile_definitions(LCORE_LIBRARY)
+add_compile_definitions(LDDSBUS_LIBRARY) 
 
 # 创建项目 
 CreateTarget(${ProjectName} "Dll")

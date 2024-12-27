@@ -4,19 +4,15 @@
 #include <luicommon/luicommon.h>
 #include <lbase/lbase.h>
 #include <QDebug>
-#include <lddsbus/lddsbus.h>
-#include <QTimer>
+
+#include "ddsclass.h"
 
 int main(int argc, char * argv[])
 {
     QApplication a(argc, argv);
-    QTimer *     timer = new QTimer;
 
-    QObject ::connect(timer, &QTimer::timeout, [=]() {
-        LDdsBus::instance().publishTopic("testxxx", QVariant("test12345"));
-    });
+	DdsClass class1;
 
-    timer->start(100);
 
     int ret = a.exec();
 

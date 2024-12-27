@@ -46,6 +46,9 @@ macro(CreateTarget ProjectName Type)
     # 添加头文件搜索路径
     include_directories(${CURRENT_PATH})              	# 当前源码目录
     include_directories(${ROOT_DIR}/include)          	# 项目根目录的 include 目录
+    include_directories(${ROOT_DIR}/bin/include)        # 项目生成目录的 include 目录    
+    include_directories(${ROOT_DIR}/bin/include/dds)           
+    include_directories(${ROOT_DIR}/bin/include/ddscxx)   
     include_directories(${ROOT_DIR}/src)              	# src 目录
 	include_directories(${ROOT_DIR}/src/core)      	   	# bin 目录下的 include
     include_directories(${ROOT_DIR}/src/lib)       		# src 下的 include

@@ -17,10 +17,10 @@ public:
     AppConfig & operator=(const AppConfig &) = delete;
 
     // 获取配置项
-    QString getAppConfig(const QString  mark, const QString defaultValue = "") const;
+    QString getAppConfig(QString  mark, QString defaultValue = "") const;
 
     // 设置配置项
-    void setAppConfig(const QString  mark, const QString  data);
+    void setAppConfig(QString  mark, QString  data);
 
 private:
     // 私有构造函数

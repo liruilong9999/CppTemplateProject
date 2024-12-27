@@ -21,8 +21,8 @@ private:
     std::condition_variable cv;       // 条件变量
 
 public:
-    // 默认构造函数，队列容量默认为10
-    CircularQueue(int capacity = 10)
+    // 默认构造函数，队列容量默认为1000000
+    CircularQueue(int capacity = 1000000)
         : front(0)
         , rear(0)
         , capacity(capacity)
