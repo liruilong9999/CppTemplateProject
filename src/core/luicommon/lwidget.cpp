@@ -1,5 +1,9 @@
 #include "lwidget.h"
 #include "ltitlebar.h"
+
+#include <QHBoxLayout>
+
+
 LWidget::LWidget(QWidget * parent /*= nullptr*/)
     : QWidget(parent)
     , m_pTitleBar(new LTitleBar)
@@ -29,6 +33,17 @@ LWidget::~LWidget()
 
 void LWidget::initWidget()
 {
+    m_pTitleBar     = new LTitleBar(this); // 标题栏
+    m_pPalletWidget = new QWidget(this);   // 工具栏
+    m_pCenterWidget = new QWidget(this);   // 正文
+
+	QVBoxLayout * layout = new QVBoxLayout(this);
+    layout->addWidget(m_pTitleBar);
+    layout->addWidget(m_pPalletWidget);
+    layout->addWidget(m_pCenterWidget);
+    layout->setStretch(0, 0);
+    layout->setStretch(0,1);
+    layout->setStretch(1, 2);
 }
 
 void LWidget::setWidgetState(WidgetState widgetState)

@@ -10,13 +10,10 @@
 int main(int argc, char * argv[])
 {
     QApplication a(argc, argv);
-    QTimer *     timer = new QTimer;
 
-    QObject ::connect(timer, &QTimer::timeout, [=]() {
-        LDdsBus::instance().publishTopic("testxxx", QVariant("test12345"));
-    });
+	LWidget w;
+	w.showMaximized();
 
-    timer->start(100);
 
     int ret = a.exec();
 
