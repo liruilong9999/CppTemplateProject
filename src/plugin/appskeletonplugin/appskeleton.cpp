@@ -16,7 +16,7 @@ AppSkeleton::AppSkeleton(QWidget * parent)
     , ui(new Ui::AppSkeleton)
 {
     ui->setupUi(this);
-    setWindowTitle(QString("地图软件"));
+    setWindowTitle(QString("xxxx"));
 }
 
 AppSkeleton::~AppSkeleton()
