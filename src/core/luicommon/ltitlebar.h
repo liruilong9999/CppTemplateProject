@@ -134,6 +134,7 @@ private:
     QToolButton * m_pBtnClose{nullptr};         // 关闭
 
     QHBoxLayout * m_pTitleLayout{nullptr}; // 水平布局
+
 };
 
 #endif

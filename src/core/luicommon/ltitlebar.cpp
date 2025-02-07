@@ -66,6 +66,8 @@ LTitleBar::LTitleBar(QWidget * parent)
     connect(m_pBtnClose, &QToolButton::clicked, this, &LTitleBar::btnCloseClicked);
 
     setCurrTitlePos(); // 默认执行一次
+
+    setStyleSheet("background-color: #ffffff;");
 }
 
 LTitleBar::~LTitleBar()
@@ -139,5 +141,4 @@ void LTitleBar::mouseDoubleClickEvent(QMouseEvent * event)
     {
         emit titleBarDoubleClicked();
     }
-    QWidget::mouseDoubleClickEvent(event);
 }

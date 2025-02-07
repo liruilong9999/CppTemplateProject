@@ -6,14 +6,15 @@
 #include <QDebug>
 #include <lddsbus/lddsbus.h>
 #include <QTimer>
+#include <queue>
 
 int main(int argc, char * argv[])
 {
     QApplication a(argc, argv);
 
-	LWidget w;
-	w.showMaximized();
-
+    LDialog w;
+    w.setWindowTitle("Test");
+    w.showNormal();
 
     int ret = a.exec();
 

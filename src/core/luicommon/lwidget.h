@@ -20,6 +20,7 @@ enum class WidgetState
 };
 
 class LTitleBar;
+class QIcon;
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 /// <summary>	实现一个自定义的QWidget. </summary>
@@ -39,11 +40,30 @@ public:
     void setWidgetState(WidgetState widgetState);
     void connectInit();
 
+    void      setContentWidget(QWidget * pContentWidget);
+    QWidget * contentWidget();
+    QWidget * takeContentWidget();
+
+    LTitleBar * titleBar();
+
+    QWidget * palletWidget();
+
+    void loadStyleSheet(const QString & stylePath);
+
+public:
+    void setWindowTitle(QString title);
+    void setWindowIcon(QIcon icon);
+
 public slots:
     void onTitleBarBtnCloseClicked();
     void onTitleBarBtnMinClicked();
     void onTitleBarBtnNomalOrMaxClicked();
     void onTitleBarDoubleClicked();
+
+protected:
+    void mousePressEvent(QMouseEvent * event) override;
+    void mouseReleaseEvent(QMouseEvent * event) override;
+    void mouseMoveEvent(QMouseEvent * event) override;
 
 private:
     WidgetState m_currentWidgetState{WidgetState::MaxState};
@@ -60,6 +80,9 @@ private:
     LTitleBar *       m_pTitleBar{nullptr};     // 标题栏
     QWidget *         m_pPalletWidget{nullptr}; // 工具栏
     QPointer<QWidget> m_pCenterWidget{nullptr}; // 正文
+    QPoint            m_mousePos{0, 0};
+
+    bool m_isMousePressed{false};
 };
 
 #endif
