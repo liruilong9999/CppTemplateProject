@@ -3,6 +3,8 @@
 
 #include <QWidget>
 #include <QPointer>
+#include <QMouseEvent>
+#include <QPainter>
 #include "luicommon_global.h"
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -54,6 +56,7 @@ public:
     void setWindowTitle(QString title);
     void setWindowIcon(QIcon icon);
 
+
 public slots:
     void onTitleBarBtnCloseClicked();
     void onTitleBarBtnMinClicked();
@@ -64,6 +67,7 @@ protected:
     void mousePressEvent(QMouseEvent * event) override;
     void mouseReleaseEvent(QMouseEvent * event) override;
     void mouseMoveEvent(QMouseEvent * event) override;
+    void updateCursorShape(const QPoint & pos);
 
 private:
     WidgetState m_currentWidgetState{WidgetState::MaxState};
@@ -81,8 +85,25 @@ private:
     QWidget *         m_pPalletWidget{nullptr}; // 工具栏
     QPointer<QWidget> m_pCenterWidget{nullptr}; // 正文
     QPoint            m_mousePos{0, 0};
+    QPoint            m_normalPos;
 
     bool m_isMousePressed{false};
+
+private:
+    enum ResizeDirection
+    {
+        NoEdge = 0x0,
+        Top    = 0x1,
+        Bottom = 0x2,
+        Left   = 0x4,
+        Right  = 0x8
+    };
+    // 重绘界面大小的标志位
+    bool   m_resizing{false};
+    int    m_resizeDirection;
+    QRect  m_windowRect;
+    QPoint m_pressPos;
+
 };
 
 #endif
