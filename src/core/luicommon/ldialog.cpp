@@ -1,17 +1,23 @@
 #include "ldialog.h"
 
 #include <QLayout>
+#include <QEventLoop>
 
 LDialog::LDialog(QWidget * parent)
 {
     setParent(parent);
+    setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
+    m_result = QDialog::Rejected;
+    connect(this, &LDialog::accepted, this, &LDialog::accept);
+    connect(this, &LDialog::rejected, this, &LDialog::reject);
+    connect(this, &LDialog::finished, this, &LDialog::done);
 }
 
 LDialog::~LDialog()
 {
 }
 
-void LDialog::setContentDiaLog(QDialog * diaLog)
+void LDialog::setContentDialog(QDialog * diaLog)
 {
     if (diaLog)
     {
@@ -34,7 +40,7 @@ void LDialog::setContentDiaLog(QDialog * diaLog)
     }
 }
 
-QDialog * LDialog::takeContentDiaLog()
+QDialog * LDialog::takeContentDialog()
 {
     if (layout() && layout()->count() > 0)
     {
@@ -53,7 +59,7 @@ QDialog * LDialog::takeContentDiaLog()
     return nullptr;
 }
 
-QDialog * LDialog::contentDiaLog() const
+QDialog * LDialog::contentDialog() const
 {
     if (layout() && layout()->count() > 0)
     {
@@ -70,31 +76,57 @@ QDialog * LDialog::contentDiaLog() const
     return nullptr;
 }
 
+int LDialog::result() const
+{
+    return m_result;
+}
+
+void LDialog::setResult(int result)
+{
+    m_result = result;
+    result ? emit accepted() : emit rejected();
+}
+
 void LDialog::accept()
 {
-
+    setResult(QDialog::Accepted);
+    done(QDialog::Accepted);
 }
 
 void LDialog::reject()
 {
+    setResult(QDialog::Rejected);
+    done(QDialog::Rejected);
 }
 
 void LDialog::exec()
 {
+    show();
+    QEventLoop loop;
+    connect(this, &LDialog::finished, &loop, &QEventLoop::quit);
+    loop.exec(QEventLoop::DialogExec);
 }
 
 void LDialog::open()
 {
+    setResult(QDialog::Rejected);
+    show();
 }
 
 void LDialog::close()
 {
+    hide();
+    done(QDialog::Rejected);
 }
 
 void LDialog::done(int result)
 {
+    setResult(result);
+    hide();
+    emit finished(result);
 }
 
 void LDialog::closeEvent(QCloseEvent * event)
 {
+    QWidget::closeEvent(event);
 }

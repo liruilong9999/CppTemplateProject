@@ -8,13 +8,14 @@
 #include <QTimer>
 #include <queue>
 
+#include "testwidget.h"
+
 int main(int argc, char * argv[])
 {
     QApplication a(argc, argv);
 
-    LDialog w;
-    w.setWindowTitle("Test");
-    w.showNormal();
+    TestWidget t;
+	t.show();
 
     int ret = a.exec();
 

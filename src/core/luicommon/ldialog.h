@@ -17,9 +17,9 @@ public:
     explicit LDialog(QWidget * parent = nullptr);
     virtual ~LDialog();
 
-    void      setContentDiaLog(QDialog * diaLog);
-    QDialog * takeContentDiaLog();
-    QDialog * contentDiaLog() const;
+    void      setContentDialog(QDialog * diaLog);
+    QDialog * takeContentDialog();
+    QDialog * contentDialog() const;
     int       result() const; // 0: rejected, 1: accepted, 2: closed
     void      setResult(int result); // 0: rejected, 1: accepted, 2: closed
 
@@ -27,6 +27,7 @@ signals:
     void accepted();
     void rejected();
     void finished(int result); // 0:表示 reject, 1:表示 accept, 2:表示 close
+
 public slots:
     virtual void accept();
     virtual void reject();
@@ -37,6 +38,10 @@ public slots:
 
 protected:
     virtual void closeEvent(QCloseEvent * event) override;
+
+
+private:
+    int m_result;
 };
 
 #endif
