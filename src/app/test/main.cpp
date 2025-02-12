@@ -15,7 +15,9 @@ int main(int argc, char * argv[])
     QApplication a(argc, argv);
 
     TestWidget t;
-	t.show();
+    t.show();
+    /*LMainwindow m;
+    m.showLMainWindow();*/
 
     int ret = a.exec();
 
