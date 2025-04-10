@@ -6,6 +6,8 @@
 LDialog::LDialog(QWidget * parent)
 {
     setParent(parent);
+    // 设置窗口的模态化，达到打开其它窗口原窗口无法操作的目的
+    setWindowModality(Qt::ApplicationModal);
     setWindowFlags(Qt::Dialog | Qt::FramelessWindowHint);
     m_result = QDialog::Rejected;
     connect(this, &LDialog::accepted, this, &LDialog::accept);

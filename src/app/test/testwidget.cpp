@@ -15,10 +15,11 @@
 TestWidget::TestWidget(QWidget * parent /*= nullptr*/)
 	:QWidget(parent)
 {
-	setFixedSize(200,200);
+	//setFixedSize(200,200);
+    setMinimumSize(400, 400);
 	QPushButton *btn = new QPushButton(this);
 	connect(btn,&QPushButton::clicked,[&](){
-		LDialog dia;
+		LDialog dia(this);
 		dia.exec();
 	});
 }
